@@ -6,10 +6,15 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/components/ui/table";
+import AuthService from "../LoginandRegist/auth.service";
+import EventBus from "../LoginandRegist/EventBus";
 
 export default function Home({ apiUrl }) {
   const [agendas, setAgendas] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
     const getAgendas = async () => {
@@ -89,6 +94,31 @@ export default function Home({ apiUrl }) {
       clearInterval(statusUpdateInterval);
     };
   }, [currentTime]);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowModeratorBoard(false);
+    setShowAdminBoard(false);
+    setCurrentUser(undefined);
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
