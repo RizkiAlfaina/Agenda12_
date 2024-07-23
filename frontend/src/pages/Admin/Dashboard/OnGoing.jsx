@@ -27,7 +27,7 @@ export default function OnGoing({ apiUrl }) {
        // Assuming totalItems is returned in the response
       animateCount(setAgendaCount, totalItems);
       animateCount(setRuanganCount, 9);
-      animateCount(setDisposisiCount, 61);
+      animateCount(setDisposisiCount, 60);
       animateCount(setUsersCount, 1);
 
       // Tambahkan fetch dan animasi untuk count lainnya jika diperlukan
