@@ -1,0 +1,6 @@
+{
+    "scripts": {
+      "start": "concurrently \"cd backend && nodemon index\" \"cd frontend && npm run dev\""
+    }
+  }
+  

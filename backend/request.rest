@@ -1,0 +1,61 @@
+GET http://192.168.13.237:5000/disposisi
+
+###
+GET http://localhost:5000/agendas/7
+
+###
+GET http://192.168.31.60:5000/agendas
+
+###
+POST http://localhost:5000/disposisi
+Content-Type: application/json
+
+{
+    "jabatan":"itunya dan anunya"
+}
+###
+POST http://localhost:5000/disposisi
+Content-Type: application/json
+
+{
+    "jabatan":"istulah"
+}
+
+###
+POST http://localhost:5000/agendas
+Content-Type: application/json
+
+{
+  "tanggal": "2024-07-18",
+  "time": "09:00:00",
+  "agenda": "Meeting with client",
+  "UPS": "UPS123",
+  "loc": "Jakarta",
+  "status": "Rapat Mendatang",
+  "disposisiIds": [1, 2]
+}
+
+
+###
+PATCH http://localhost:5000/disposisi/4
+{
+  "jabatan": " jadi beda"
+}
+
+
+###
+PATCH http://localhost:5000/agendas/8
+Content-Type: application/json
+
+{
+  "tanggal": "2024-07-18",
+  "time": "09:00:00",
+  "agenda": "Meeting with client",
+  "UPS": "UPS123",
+  "loc": "Jakarta",
+  "status": "Rapat Mendatang",
+  "disposisiIds": [1,2]
+}
+
+###
+DELETE http://localhost:5000/agendas/2

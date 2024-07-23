@@ -1,0 +1,151 @@
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Bell, BookUser, Database, Home, ScrollText } from 'lucide-react'
+import { Link, useNavigation } from "react-router-dom";
+
+export default function NavbarWeb() {
+    return (<div className="hidden border-r bg-muted/40 md:block">
+        <div className="flex h-full max-h-screen flex-col gap-2">
+            <div className="flex h-17 items-center border-b px-4 lg:h-[140px] lg:px-6">
+                <Link to={"/"} className="flex flex-col items-start gap-2 font-semibold">
+                    <img
+                        src="/login.jpg"
+                        alt="Image"
+                        width="180"
+                        height="180"
+                    />
+                    <b className="text-xs font-bold">Terminal Agendas System</b>
+
+                </Link>
+
+
+                <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
+                    <Bell className="h-4 w-4" />
+                    <span className="sr-only">Toggle notifications</span>
+                </Button>
+            </div>
+            <div className="flex-1">
+                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                    {/* <Link
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary  bg-muted"
+              >
+                <Home className="h-4 w-4" />
+                Dashboard
+              </Link> */}
+                    <Accordion type="single" collapsible className=" rounded-lg px-3 py-2 text-muted-foreground transition-all ">
+                        <AccordionItem value="item-1" className="border-none">
+                            <AccordionTrigger className="hover:text-primary hover:no-underline">
+                                <span className="flex items-center gap-3">
+                                    <Home className="h-4 w-4" />
+                                    Dashboard
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                                    
+                                    <Link
+                                        to={"/dashboard"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all text-primary hover:text-primary bg-muted"
+                                    >
+
+                                        OnGoing
+                                    </Link>
+                                    {/* <Link
+                                        to={"/inventory-status"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary "
+                                    >
+
+                                        Invetory Status
+                                    </Link> */}
+                                </nav>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2" className="border-none">
+                            <AccordionTrigger className="hover:text-primary hover:no-underline ">
+                                <span className="flex items-center gap-3">
+                                    <ScrollText className="h-4 w-4" />
+                                    Agenda
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                                    <Link
+                                        to={"/agenda"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground  transition-all hover:text-primary"
+                                    >
+                                        {/* <Home className="h-4 w-4" /> */}
+                                        List Agenda
+                                    </Link>
+                                    
+                                </nav>
+                            </AccordionContent>
+                        </AccordionItem>
+
+                        <AccordionItem value="item-3" className="border-none">
+                            <AccordionTrigger className="hover:text-primary hover:no-underline">
+                                <span className="flex items-center gap-3">
+                                    <Database className="h-4 w-4" />
+                                    Master Data
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                                    <Link
+                                        to={"/disposisi"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                    >
+                                        {/* <Home className="h-4 w-4" /> */}
+                                        Disposisi
+                                    </Link>
+                                    {/* <Link
+                                        to={"/lokasi"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary "
+                                    >
+                                        Lokasi Rapat
+                                    </Link> */}
+                                </nav>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-4" className="border-none">
+                            <AccordionTrigger className="hover:text-primary hover:no-underline">
+                                <span className="flex items-center gap-3">
+                                    <BookUser className="h-4 w-4" />
+                                    Users
+                                </span>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                                    <Link
+                                        to={"#"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                    >
+                                        {/* <Home className="h-4 w-4" /> */}
+                                        Terminal
+                                    </Link>
+                                    <Link
+                                        to={"#"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary "
+                                    >
+                                        {/* <Home className="h-4 w-4" /> */}
+                                        Employee
+                                    </Link>
+                                    <Link
+                                        to={"#"}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary "
+                                    >
+                                        {/* <Home className="h-4 w-4" /> */}
+                                        Role
+                                    </Link>
+
+                                </nav>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+
+                </nav>
+            </div>
+
+        </div>
+    </div>)
+}
