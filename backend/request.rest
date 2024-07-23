@@ -1,10 +1,10 @@
-GET http://192.168.13.237:5000/disposisi
+GET http://localhost:5000/disposisi
 
 ###
 GET http://localhost:5000/agendas/7
 
 ###
-GET http://192.168.31.60:5000/agendas
+GET http://localhost:5000/agendas
 
 ###
 POST http://localhost:5000/disposisi
@@ -12,6 +12,17 @@ Content-Type: application/json
 
 {
     "jabatan":"itunya dan anunya"
+}
+
+###
+POST http://localhost:5000/signup
+Content-Type: application/json
+
+{  
+    "username": "mod",  
+    "email": "mod@bekcoder.com",  
+    "password": "12345678",  
+    "roles": ["moderator", "user"]  
 }
 ###
 POST http://localhost:5000/disposisi
