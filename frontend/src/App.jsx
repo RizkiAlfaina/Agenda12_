@@ -6,7 +6,7 @@ import Home from './pages/home/Home';
 import OnGoing from './pages/Admin/Dashboard/OnGoing';
 import AgendaList from './pages/Admin/Agenda/AgendaList';
 import EditAgenda from './pages/Admin/Agenda/EditAgenda';
-import Login from './pages/onboarding/Login';
+import Login from './pages/LoginandRegist/Login';
 import ResetPassword from './pages/reset-password/ResetPasword';
 import AddAgenda from './pages/Admin/Agenda/AddAgenda';
 import DisposisiList from './pages/Admin/MasterData/Disposisi/DisposisiList';
