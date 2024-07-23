@@ -4,10 +4,14 @@ import { Bell, BookUser, Database, Home, ScrollText } from 'lucide-react'
 import { Link, useNavigation } from "react-router-dom";
 
 export default function NavbarWeb() {
+
+    function homeClick() {
+        window.location.replace("/");
+    }
     return (<div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-17 items-center border-b px-4 lg:h-[140px] lg:px-6">
-                <Link to={"/"} className="flex flex-col items-start gap-2 font-semibold">
+                <div onClick={homeClick} className="flex flex-col items-start gap-2 font-semibold cursor-pointer">
                     <img
                         src="/login.jpg"
                         alt="Image"
@@ -16,7 +20,7 @@ export default function NavbarWeb() {
                     />
                     <b className="text-xs font-bold">Terminal Agendas System</b>
 
-                </Link>
+                </div>
 
 
                 <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
