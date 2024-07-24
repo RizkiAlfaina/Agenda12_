@@ -13,10 +13,10 @@ const formatDateToISO = (date) => {
 // Create new agenda with multiple disposisiIds
 export const createAgenda = async (req, res) => {
   try {
-    const { tanggal, time, agenda, UPS, loc, status, disposisiIds } = req.body;
+    const { tanggal, time, agenda, UPS, loc, status, disposisiIds, estimatedTime } = req.body;
 
     // Create a new agenda
-    const newAgenda = await Agenda.create({ tanggal, time, agenda, UPS, loc, status });
+    const newAgenda = await Agenda.create({ tanggal, time, agenda, UPS, loc, status, estimatedTime });
 
     // Link the agenda with multiple disposisiIds
     if (disposisiIds && disposisiIds.length > 0) {
@@ -111,7 +111,7 @@ export const getAgendaById = async (req, res) => {
 // Update an agenda by ID
 export const updateAgenda = async (req, res) => {
   const { id } = req.params;
-  const { tanggal, time, agenda, UPS, loc, status, disposisiIds } = req.body;
+  const { tanggal, time, agenda, UPS, loc, status, disposisiIds, estimatedTime } = req.body;
 
   try {
     // Validate disposisiIds if provided
@@ -125,7 +125,7 @@ export const updateAgenda = async (req, res) => {
     }
 
     // Update agenda details
-    await Agenda.update({ tanggal, time, agenda, UPS, loc, status }, { where: { id } });
+    await Agenda.update({ tanggal, time, agenda, UPS, loc, status, estimatedTime }, { where: { id } });
 
     // Handle disposisi association
     const agendaInstance = await Agenda.findByPk(id);

@@ -58,6 +58,22 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
 
+  const formatEstimatedTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+  
+    if (hours === 0 && remainingMinutes === 0) {
+      return '-';
+    }
+  
+    if (remainingMinutes === 0) {
+      return `${hours} jam`;
+    }
+    
+    return hours > 0 ? `${hours} jam ${remainingMinutes} menit` : `${remainingMinutes} menit`;
+  };
+  
+
   return (
     <div className="overflow-x-auto">
       <Table className="min-w-full">
@@ -68,6 +84,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
               Hari {renderSortIcon('hari')}
             </TableHead>
             <TableHead className="hidden sm:table-cell">Waktu</TableHead>
+            <TableHead className="hidden sm:table-cell">Estimasi Waktu</TableHead>
             <TableHead>Agenda</TableHead>
             <TableHead className="hidden sm:table-cell" onClick={() => handleSort('UPS')}>
               Unit Pengirim Surat {renderSortIcon('UPS')}
@@ -92,6 +109,9 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                   </Badge>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">{agenda.time}</TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  {formatEstimatedTime(agenda.estimatedTime)}
+                </TableCell>
                 <TableCell>
                   <div className="font-bold">{agenda.agenda}</div>
                   <div className="text-sm text-gray-500 lg:hidden">
@@ -103,6 +123,10 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                     </div>
                     <div>
                       <span className="font-semibold">Waktu: </span>{agenda.time}
+                    </div>
+                    <div>
+                      <span className="font-semibold">Estimasi Waktu: </span>
+                      {formatEstimatedTime(agenda.estimatedTime)}
                     </div>
                     <div>
                       <span className="font-semibold">Unit Pengirim Surat: </span>{agenda.UPS}
@@ -119,7 +143,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                           </span>
                         ))
                       ) : (
-                        <span>No Disposisi</span>
+                        <span>Tidak Ada Disposisi</span>
                       )}
                     </div>
                   </div>
@@ -134,7 +158,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                       </span>
                     ))
                   ) : (
-                    <span>No Disposisi</span>
+                    <span>Tidak Ada Disposisi</span>
                   )}
                 </TableCell>
                 <TableCell>{agenda.status}</TableCell>
@@ -157,11 +181,11 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                       <DialogHeader>
-                        <DialogTitle>Delete</DialogTitle>
+                        <DialogTitle>Hapus</DialogTitle>
                       </DialogHeader>
-                      Delete this data?
+                      Hapus data ini?
                       <DialogFooter>
-                        <Button onClick={() => deleteAgenda(agenda.id)} type="submit">Delete</Button>
+                        <Button onClick={() => deleteAgenda(agenda.id)} type="submit">Hapus</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

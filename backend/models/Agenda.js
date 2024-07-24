@@ -17,6 +17,10 @@ const Agenda = db.define('agendas', {
         type: DataTypes.TIME,
         allowNull: true
     },
+    estimatedTime: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
     agenda: {
         type: DataTypes.STRING,
         allowNull: false
