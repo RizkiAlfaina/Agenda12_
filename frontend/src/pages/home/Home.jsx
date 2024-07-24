@@ -6,10 +6,15 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/components/ui/table";
+import AuthService from "../LoginandRegist/auth.service";
+import EventBus from "../LoginandRegist/EventBus";
 
 export default function Home({ apiUrl }) {
   const [agendas, setAgendas] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
     const getAgendas = async () => {
@@ -90,6 +95,31 @@ export default function Home({ apiUrl }) {
     };
   }, [currentTime]);
 
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowModeratorBoard(false);
+    setShowAdminBoard(false);
+    setCurrentUser(undefined);
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return format(date, 'EEEE, dd-MM-yyyy', { locale: id });
@@ -129,14 +159,35 @@ export default function Home({ apiUrl }) {
     window.location.replace("/admin/login");
   }
 
+  function dashboardClick() {
+    window.location.replace("/control/dashboard");
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="z-10 bg-white/50 flex items-center h-16 content-center border-b bg-background px-4 md:px-6">
-        <div className="ml-auto flex items-center">
+      {currentUser ? (
+          <div className="flex items-center space-x-4 ml-auto">
+            <div onClick={dashboardClick} className="text-black cursor-pointer">
+              Dashboard
+            </div>
+            <Button onClick={logOut} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+              Logout
+            </Button>
+          </div>        
+        ) : (
+          <div className="navbar-nav ml-auto">
+              <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                Login
+              </Button>
+
+          </div>
+        )}                
+        {/* <div className="ml-auto flex items-center">
           <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
             Login
           </Button>
-        </div>
+        </div> */}
       </header>
       <div className="grid grid-cols-3 items-center gap-2 mb-0.1 mt-0.1">
         <div className="flex items-center col-span-1">

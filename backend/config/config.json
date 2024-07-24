@@ -2,22 +2,40 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "crud_db1",
+    "database": "crud_db4",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   }
 }

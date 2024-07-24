@@ -39,9 +39,12 @@ export const getAgendas = async (req, res) => {
     const { rows, count } = await Agenda.findAndCountAll({
       where: {
         [Op.or]: [
+          { time: { [Op.like]: `%${search}%` } },
+          { tanggal: { [Op.like]: `%${search}%` } },
           { agenda: { [Op.like]: `%${search}%` } },
           { UPS: { [Op.like]: `%${search}%` } },
-          { loc: { [Op.like]: `%${search}%` } }
+          { loc: { [Op.like]: `%${search}%` } },
+          { status: { [Op.like]: `%${search}%` } }
         ]
       },
       order: [['tanggal', 'ASC'], ['time', 'ASC']],
@@ -51,7 +54,11 @@ export const getAgendas = async (req, res) => {
         {
           model: Disposisi,
           attributes: ['id', 'jabatan'],
-          through: { attributes: [] } // Exclude join table attributes
+          through: { attributes: [] },
+          where: {
+            jabatan: { [Op.like]: `%${search}%` }
+          },
+          required: false
         }
       ]
     });
@@ -73,7 +80,6 @@ export const getAgendas = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 // Get an agenda by ID
 export const getAgendaById = async (req, res) => {
   try {

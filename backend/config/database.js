@@ -1,8 +1,13 @@
-import {Sequelize} from "sequelize";
+import { Sequelize } from 'sequelize';
+import config from './config.json' assert { type: 'json' };
 
-const db = new Sequelize('crud_db2','root','',{
-    host:'localhost',
-    dialect: 'mysql'
+const env = process.env.NODE_ENV || 'development';
+const dbConfig = config[env];
+
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+  host: dbConfig.host,
+  dialect: dbConfig.dialect,
+  pool: dbConfig.pool,
 });
 
-export default db;
+export default sequelize;
