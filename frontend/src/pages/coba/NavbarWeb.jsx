@@ -2,6 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { Bell, BookUser, Database, Home, ScrollText } from 'lucide-react'
 import { Link, useNavigation } from "react-router-dom";
+import { RxDashboard } from "react-icons/rx";
 
 export default function NavbarWeb() {
 
@@ -30,18 +31,18 @@ export default function NavbarWeb() {
             </div>
             <div className="flex-1">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                    {/* <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary transition-all hover:text-primary  bg-muted"
-              >
-                <Home className="h-4 w-4" />
-                Dashboard
-              </Link> */}
                     <Accordion type="single" collapsible className=" rounded-lg px-3 py-2 text-muted-foreground transition-all ">
+                        <div
+                            onClick={homeClick} 
+                            className="flex items-center gap-3 rounded-lg text-muted-foreground transition-all hover:text-primary cursor-pointer mb-4 mt-4"
+                            >
+                            <Home className="h-4 w-4" />
+                            Home
+                        </div>
                         <AccordionItem value="item-1" className="border-none">
                             <AccordionTrigger className="hover:text-primary hover:no-underline">
                                 <span className="flex items-center gap-3">
-                                    <Home className="h-4 w-4" />
+                                    <RxDashboard className="h-4 w-4" />
                                     Dashboard
                                 </span>
                             </AccordionTrigger>
@@ -79,7 +80,7 @@ export default function NavbarWeb() {
                                         className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground  transition-all hover:text-primary"
                                     >
                                         {/* <Home className="h-4 w-4" /> */}
-                                        List Agenda
+                                        Agenda List
                                     </Link>
                                     
                                 </nav>
