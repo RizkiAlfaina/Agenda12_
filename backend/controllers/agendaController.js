@@ -80,9 +80,11 @@ export const getAgendas = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 // Get an agenda by ID
 export const getAgendaById = async (req, res) => {
   try {
+    console.log(`Fetching agenda with ID: ${req.params.id}`); // Debug log
     const agenda = await Agenda.findOne({
       where: { id: req.params.id },
       include: [
@@ -94,6 +96,7 @@ export const getAgendaById = async (req, res) => {
       ]
     });
     if (!agenda) {
+      console.error(`Agenda with ID ${req.params.id} not found`); // Debug log
       return res.status(404).json({ message: "Agenda not found" });
     }
     const formattedAgenda = {
@@ -152,19 +155,32 @@ export const updateAgenda = async (req, res) => {
   }
 };
 
-
 // Delete an agenda by ID
 export const deleteAgenda = async (req, res) => {
   try {
+    console.log(`Deleting agenda with ID: ${req.params.id}`); // Debug log
     const response = await Agenda.destroy({
       where: { id: req.params.id }
     });
     if (response === 0) {
+      console.error(`Agenda with ID ${req.params.id} not found`); // Debug log
       return res.status(404).json({ message: "Agenda not found" });
     }
     res.status(200).json({ message: "Agenda Deleted" });
   } catch (error) {
     console.error(`Error deleting agenda with ID ${req.params.id}:`, error.message);
     res.status (500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Count total agendas
+export const countAgendas = async (req, res) => {
+  try {
+    console.log('Counting total agendas'); // Debug log
+    const count = await Agenda.count();
+    res.status(200).json({ totalAgendas: count });
+  } catch (error) {
+    console.error('Error counting agendas:', error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
