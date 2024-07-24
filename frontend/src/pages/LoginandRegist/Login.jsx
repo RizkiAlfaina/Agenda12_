@@ -97,13 +97,13 @@ export default function Login() {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <button className="btn btn-primary btn-block" disabled={loading}>
+                    <div className="form-group text-center">
+                        <Button className="w-full bg-green-500 hover:bg-green-800 text-white py-2 rounded-lg" disabled={loading}>
                         {loading && (
                             <span className="spinner-border spinner-border-sm"></span>
                         )}
                         <span>Login</span>
-                        </button>
+                        </Button>
                     </div>
 
                     {message && (
