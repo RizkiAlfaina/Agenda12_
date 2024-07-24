@@ -171,13 +171,13 @@ export default function Home({ apiUrl }) {
             <div onClick={dashboardClick} className="text-black cursor-pointer">
               Dashboard
             </div>
-            <Button onClick={logOut} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            <Button onClick={logOut} className="px-4 py-2 bg-blue-500 text-white rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
               Logout
             </Button>
           </div>        
         ) : (
           <div className="navbar-nav ml-auto">
-              <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+              <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                 Login
               </Button>
 
@@ -192,7 +192,7 @@ export default function Home({ apiUrl }) {
       <div className="grid grid-cols-3 items-center gap-2 mb-0.1 mt-0.1">
         <div className="flex items-center col-span-1">
             <img src="/pupr.jpg" className="ml-4 w-12 md:w-16" alt="Logo" />
-            <div className="ml-2 text-foreground text-xl md:text-2xl font-bold transition-colors hover:text-foreground">
+            <div className="ml-2 text-foreground text-xl md:text-2xl sm:text-xl font-bold transition-colors hover:text-foreground">
                 BBWS BRANTAS
             </div>
         </div>

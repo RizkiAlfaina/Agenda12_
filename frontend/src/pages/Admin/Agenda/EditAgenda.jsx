@@ -190,7 +190,7 @@ const EditAgenda = ({ apiUrl }) => {
             </select>
           </div>
 
-          <Button type="submit" className="mt-2 bg-green-500 text-white hover:bg-green-800 rounded-xl py-2 px-6 self-end text-lg">Update</Button>
+          <Button type="submit" className="mt-2 bg-green-500 text-white hover:bg-green-700 rounded-xl py-2 px-6 self-end text-lg w-full md:w-auto self-center lg:self-end text-lg font-sans rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-green-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">Update</Button>
         </form>
       </div>
     </main>

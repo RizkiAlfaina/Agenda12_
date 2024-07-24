@@ -14,7 +14,7 @@ export default function DisposisiList({ apiUrl }) {
         <div className="flex flex-col gap-1 w-full">
           <div className="flex flex-row gap-1 w-full">
             <Link to="/disposisi/add-disp">
-              <Button variant="outline" className="flex items-center gap-2 rounded-xl bg-blue-500 px-4 py-2 text-primary hover:text-foreground hover:bg-blue-600">
+              <Button variant="outline" className="flex items-center gap-2 rounded-xl bg-blue-500 px-4 py-2 text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                 <FilePlus2 className="h-4 w-4" /> Add
               </Button>
             </Link>

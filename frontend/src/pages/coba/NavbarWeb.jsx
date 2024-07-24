@@ -9,7 +9,8 @@ export default function NavbarWeb() {
     function homeClick() {
         window.location.replace("/");
     }
-    return (<div className="hidden border-r bg-muted/40 md:block">
+    return (
+        <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-17 items-center border-b px-4 lg:h-[140px] lg:px-6">
                 <div onClick={homeClick} className="flex flex-col items-start gap-2 font-semibold cursor-pointer">
