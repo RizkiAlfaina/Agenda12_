@@ -80,6 +80,7 @@ export default function Login() {
                         <Input
                             type="text"
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                            placeholder="Username"
                             name="username"
                             value={username}
                             onChange={onChangeUsername}
@@ -90,6 +91,7 @@ export default function Login() {
                         <Input
                             type={visible ? "text" : "password"}
                             className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                            placeholder="Password"
                             name="password"
                             value={password}
                             onChange={onChangePassword}
