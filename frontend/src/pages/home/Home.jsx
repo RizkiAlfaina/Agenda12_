@@ -196,7 +196,7 @@ export default function Home({ apiUrl }) {
                 BBWS BRANTAS
             </div>
         </div>
-        <h1 className="col-span-1 text-center text-2xl md:text-2xl sm:text-xl font-bold mt-4 mb-5">
+        <h1 className="col-span-3 md:col-span-2 lg:col-span-1 text-center text-xl md:text-2xl lg:text-2xl font-bold mt-4 mb-5">
             AGENDA RAPAT BIDANG KPISDA
         </h1>
       </div>
