@@ -142,7 +142,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                   <Link to={`/agenda/edit-agenda/${agenda.id}`} className="w-full sm:w-auto">
                     <Dialog id="edit">
                       <DialogTrigger asChild>
-                        <Button className="flex items-center gap-2 rounded-xl bg-green-500 text-primary hover:text-foreground hover:bg-green-600 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2">
+                        <Button className="flex items-center gap-2 rounded-xl bg-green-500 text-primary hover:text-foreground hover:bg-green-600 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                           <Edit className="h-4 w-4" />
                           Edit
                         </Button>
@@ -151,7 +151,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                   </Link>
                   <Dialog id="trash">
                     <DialogTrigger asChild>
-                      <Button className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 w-full sm:w-auto">
+                      <Button className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 w-full sm:w-auto hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                         <Trash2 className="h-4 w-4" />Delete
                       </Button>
                     </DialogTrigger>

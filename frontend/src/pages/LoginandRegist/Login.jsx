@@ -100,7 +100,7 @@ export default function Login() {
                     </div>
 
                     <div className="form-group text-center">
-                        <Button className="w-full bg-green-500 hover:bg-green-800 text-white py-2 rounded-lg" disabled={loading}>
+                        <Button className="w-full bg-green-500 py-2 rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-green-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg" disabled={loading}>
                         {loading && (
                             <span className="spinner-border spinner-border-sm"></span>
                         )}

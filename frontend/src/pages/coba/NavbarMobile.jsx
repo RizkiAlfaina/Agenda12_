@@ -153,7 +153,7 @@ export default function NavbarMobile() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="font-bold">Ardoni Gultom</span>
+                  <span className="font-bold">Admin</span>
                   <span className="text-muted-foreground text-xs">SYSTEM ADMIN</span>
                 </div>
                 <Button onClick={handleClick} className="absolute right-10">
@@ -183,10 +183,10 @@ export default function NavbarMobile() {
                 <KeyRound className="h-4 w-4" />
                 Reset Password
               </Link>
-              <Link href="#" className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted">
+              {/* <Link href="#" className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted">
                 <MenuIcon className="h-4 w-4" />
                 Platform Menu
-              </Link>
+              </Link> */}
             </TabsContent>
           </Tabs>
         </DropdownMenuContent>

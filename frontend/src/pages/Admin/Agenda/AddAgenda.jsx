@@ -171,7 +171,7 @@ const AddAgenda = ({ apiUrl }) => {
             </select>
           </div>
 
-          <Button type="submit" className="mt-2 bg-blue-600 text-white hover:bg-blue-800 py-2 px-6 self-end text-lg">
+          <Button type="submit" className="mt-2 bg-blue-500 text-white hover:bg-blue-600 py-2 px-6 w-full md:w-auto self-center lg:self-end text-lg font-sans rounded-xl rounded-lg text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
             Add
           </Button>
         </form>

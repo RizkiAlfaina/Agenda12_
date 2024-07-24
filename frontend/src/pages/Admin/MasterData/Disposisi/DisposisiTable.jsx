@@ -65,7 +65,7 @@ const DisposisiTable = ({ apiUrl }) => {
               <Dialog id="trash">
                 <DialogTrigger asChild>
                   <Button
-                    className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 ml-4"
+                    className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 ml-4 hover:text-white transition transform hover:scale-105 hover:shadow-lg"
                     onClick={() => setSelectedDisposisiId(disposisi.id)}
                   >
                     <Trash2 className="h-4 w-4" />Delete
