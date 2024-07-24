@@ -21,14 +21,14 @@ export default function OnGoing({ apiUrl }) {
 
   const fetchCounts = async () => {
     try {
-      const agendaResponse = await axios.get(`${apiUrl}/agendas`);
+      const agendaResponse = await axios.get(`${apiUrl}/count`);
       const agendaData = agendaResponse.data;
-      const totalItems = agendaData.totalItems;
+      const totalAgendas = agendaData.totalAgendas;
 
-      if (totalItems === null || totalItems === 0) {
+      if (totalAgendas === null || totalAgendas === 0) {
         setAgendaCount(0); // Set langsung tanpa animasi
       } else {
-        animateCount(setAgendaCount, totalItems);
+        animateCount(setAgendaCount, totalAgendas);
       }
 
       // Animasi untuk count lainnya (disesuaikan jika menggunakan API yang sebenarnya)

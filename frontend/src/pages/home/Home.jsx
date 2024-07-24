@@ -9,6 +9,21 @@ import { Table, TableHeader, TableBody, TableRow, TableCell } from "@/components
 import AuthService from "../LoginandRegist/auth.service";
 import EventBus from "../LoginandRegist/EventBus";
 
+const formatEstimatedTime = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  if (hours === 0 && remainingMinutes === 0) {
+    return '-';
+  }
+
+  if (remainingMinutes === 0) {
+    return `${hours} jam`;
+  }
+  
+  return hours > 0 ? `${hours} jam ${remainingMinutes} menit` : `${remainingMinutes} menit`;
+};
+
 export default function Home({ apiUrl }) {
   const [agendas, setAgendas] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -33,11 +48,12 @@ export default function Home({ apiUrl }) {
         const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
         const minutesDifference = differenceInMinutes(agendaDateTime, currentTime);
         let newStatus = agenda.status;
-
+        const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
+        
         if (agenda.status === "Dibatalkan") {
           return agenda; // Skip updating if the status is "Dibatalkan"
         }
-
+    
         newStatus = "Rapat Mendatang";
         if (minutesDifference <= 30 && minutesDifference > 15) {
           newStatus = "30 Menit Lagi";
@@ -45,12 +61,12 @@ export default function Home({ apiUrl }) {
           newStatus = "15 Menit Lagi";
         } else if (minutesDifference === 0) {
           newStatus = "Saatnya Rapat";
-        } else if (minutesDifference < 0 && minutesDifference >= -180) {
+        } else if (minutesDifference < 0 && minutesDifference >= -estimatedEndTime) {
           newStatus = "Sedang Rapat";
-        } else if (minutesDifference < -180) {
+        } else if (minutesDifference < -estimatedEndTime) {
           newStatus = "Sudah Rapat";
         }
-
+    
         if (newStatus !== agenda.status) {
           try {
             await axios.patch(`${apiUrl}/agendas/${agenda.id}`, {
@@ -60,22 +76,24 @@ export default function Home({ apiUrl }) {
             console.error(`Error updating agenda with ID ${agenda.id}:`, error.message);
           }
         }
-
+    
         return {
           ...agenda,
           status: newStatus
         };
       }));
-
+    
       return updatedAgendas.filter(agenda => {
         if (agenda.status === "Sudah Rapat") {
           const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
           const minutesSinceEnd = differenceInMinutes(currentTime, agendaDateTime);
-          return minutesSinceEnd <= 180; // Exclude agendas that ended more than 4 hours ago
+          const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
+          return minutesSinceEnd <= estimatedEndTime;
         }
         return true;
       });
     };
+    
 
     getAgendas();
 
@@ -138,18 +156,19 @@ export default function Home({ apiUrl }) {
 
   const groupedAgendas = groupAgendasByDate(agendas);
 
-  const getNotification = (agendaTime) => {
-    const agendaDateTime = parseISO(`${agendaTime.tanggal}T${agendaTime.time}`);
+  const getNotification = (agenda) => {
+    const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
     const minutesDifference = differenceInMinutes(agendaDateTime, currentTime);
+    const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
     if (minutesDifference <= 30 && minutesDifference > 15) {
       return "Rapat dimulai 30 Menit Lagi";
     } else if (minutesDifference <= 15 && minutesDifference > 0) {
       return "Rapat dimulai 15 Menit Lagi";
     } else if (minutesDifference === 0) {
       return "Saatnya Rapat";
-    } else if (minutesDifference < 0 && minutesDifference >= -180) {
-      return "Sedang Rapat";
-    } else if (minutesDifference < -180) {
+    } else if (minutesDifference < 0 && minutesDifference >= -estimatedEndTime) {
+      return agenda.estimatedTime ? formatEstimatedTime(agenda.estimatedTime) : "Sedang Rapat";
+    } else if (minutesDifference < -estimatedEndTime) {
       return "Sudah Rapat";
     }
     return null;
@@ -166,7 +185,7 @@ export default function Home({ apiUrl }) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="z-10 bg-white/50 flex items-center h-16 content-center border-b bg-background px-4 md:px-6">
-      {currentUser ? (
+        {currentUser ? (
           <div className="flex items-center space-x-4 ml-auto">
             <div onClick={dashboardClick} className="text-black cursor-pointer">
               Dashboard
@@ -182,12 +201,7 @@ export default function Home({ apiUrl }) {
               </Button>
 
           </div>
-        )}                
-        {/* <div className="ml-auto flex items-center">
-          <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Login
-          </Button>
-        </div> */}
+        )}
       </header>
       <div className="grid grid-cols-3 items-center gap-2 mb-0.1 mt-0.1">
         <div className="flex items-center col-span-1">
@@ -274,7 +288,7 @@ export default function Home({ apiUrl }) {
                               </span>
                             ))
                           )}
-                            </TableCell>
+                          </TableCell>
                           <TableCell className={`border-r border-gray-300 text-center text-sm md:text-2xl ${textColor}`}>{agenda.status}</TableCell>
                         </TableRow>
                       );

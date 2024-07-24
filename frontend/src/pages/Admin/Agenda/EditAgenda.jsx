@@ -13,6 +13,8 @@ const EditAgenda = ({ apiUrl }) => {
   const [loc, setLoc] = useState("");
   const [disposisiOptions, setDisposisiOptions] = useState([]);
   const [selectedDisposisi, setSelectedDisposisi] = useState([]);
+  const [estimatedHours, setEstimatedHours] = useState(0);
+  const [estimatedMinutes, setEstimatedMinutes] = useState(0);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
@@ -39,12 +41,15 @@ const EditAgenda = ({ apiUrl }) => {
   const updateAgenda = async (e) => {
     e.preventDefault();
 
+    const estimatedTime = (estimatedHours * 60) + estimatedMinutes;
+
     const formData = {
       tanggal,
       time,
       agenda,
       UPS,
       loc,
+      estimatedTime,
       disposisiIds: selectedDisposisi.map(d => d.id),
       status,
     };
@@ -73,6 +78,8 @@ const EditAgenda = ({ apiUrl }) => {
         setAgenda(response.data.agenda);
         setUPS(response.data.UPS);
         setLoc(response.data.loc);
+        setEstimatedHours(Math.floor(response.data.estimatedTime / 60));
+        setEstimatedMinutes(response.data.estimatedTime % 60);
         setSelectedDisposisi(response.data.disposisis.map(d => ({ id: d.id, jabatan: d.jabatan })));
         setStatus(response.data.status);
       }
@@ -170,6 +177,32 @@ const EditAgenda = ({ apiUrl }) => {
               className="multiselect"
             />
             {errors.disposisi && <p className="text-red-500">{errors.disposisi}</p>}
+          </div>
+
+          <div className="field w-full">
+            <label htmlFor="estimated_time" className="label text-lg font-semibold">Estimasi Waktu (jam dan menit)</label>
+            <div className="flex gap-4">
+              <select
+                className="input border-4 rounded px-3 py-2"
+                value={estimatedHours}
+                onChange={(e) => setEstimatedHours(Number(e.target.value))}
+                id="estimated_hours"
+              >
+                {[...Array(24).keys()].map(hour => (
+                  <option key={hour} value={hour}>{hour} jam</option>
+                ))}
+              </select>
+              <input
+                type="number"
+                className="input border-4 rounded px-3 py-2"
+                value={estimatedMinutes}
+                onChange={(e) => setEstimatedMinutes(Number(e.target.value))}
+                id="estimated_minutes"
+                min="0"
+                max="59"
+                placeholder="Menit"
+              />
+            </div>
           </div>
 
           <div className="field w-full">

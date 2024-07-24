@@ -13,10 +13,10 @@ const formatDateToISO = (date) => {
 // Create new agenda with multiple disposisiIds
 export const createAgenda = async (req, res) => {
   try {
-    const { tanggal, time, agenda, UPS, loc, status, disposisiIds } = req.body;
+    const { tanggal, time, agenda, UPS, loc, status, disposisiIds, estimatedTime } = req.body;
 
     // Create a new agenda
-    const newAgenda = await Agenda.create({ tanggal, time, agenda, UPS, loc, status });
+    const newAgenda = await Agenda.create({ tanggal, time, agenda, UPS, loc, status, estimatedTime });
 
     // Link the agenda with multiple disposisiIds
     if (disposisiIds && disposisiIds.length > 0) {
@@ -80,9 +80,11 @@ export const getAgendas = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 // Get an agenda by ID
 export const getAgendaById = async (req, res) => {
   try {
+    console.log(`Fetching agenda with ID: ${req.params.id}`); // Debug log
     const agenda = await Agenda.findOne({
       where: { id: req.params.id },
       include: [
@@ -94,6 +96,7 @@ export const getAgendaById = async (req, res) => {
       ]
     });
     if (!agenda) {
+      console.error(`Agenda with ID ${req.params.id} not found`); // Debug log
       return res.status(404).json({ message: "Agenda not found" });
     }
     const formattedAgenda = {
@@ -111,7 +114,7 @@ export const getAgendaById = async (req, res) => {
 // Update an agenda by ID
 export const updateAgenda = async (req, res) => {
   const { id } = req.params;
-  const { tanggal, time, agenda, UPS, loc, status, disposisiIds } = req.body;
+  const { tanggal, time, agenda, UPS, loc, status, disposisiIds, estimatedTime } = req.body;
 
   try {
     // Validate disposisiIds if provided
@@ -125,7 +128,7 @@ export const updateAgenda = async (req, res) => {
     }
 
     // Update agenda details
-    await Agenda.update({ tanggal, time, agenda, UPS, loc, status }, { where: { id } });
+    await Agenda.update({ tanggal, time, agenda, UPS, loc, status, estimatedTime }, { where: { id } });
 
     // Handle disposisi association
     const agendaInstance = await Agenda.findByPk(id);
@@ -152,19 +155,32 @@ export const updateAgenda = async (req, res) => {
   }
 };
 
-
 // Delete an agenda by ID
 export const deleteAgenda = async (req, res) => {
   try {
+    console.log(`Deleting agenda with ID: ${req.params.id}`); // Debug log
     const response = await Agenda.destroy({
       where: { id: req.params.id }
     });
     if (response === 0) {
+      console.error(`Agenda with ID ${req.params.id} not found`); // Debug log
       return res.status(404).json({ message: "Agenda not found" });
     }
     res.status(200).json({ message: "Agenda Deleted" });
   } catch (error) {
     console.error(`Error deleting agenda with ID ${req.params.id}:`, error.message);
     res.status (500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Count total agendas
+export const countAgendas = async (req, res) => {
+  try {
+    console.log('Counting total agendas'); // Debug log
+    const count = await Agenda.count();
+    res.status(200).json({ totalAgendas: count });
+  } catch (error) {
+    console.error('Error counting agendas:', error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
