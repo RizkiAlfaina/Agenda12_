@@ -20,7 +20,6 @@ export default function ResetPassword() {
               <h3 className="text-2xl font-bold tracking-tight">
                 Reset Password
               </h3>
-              <Input type="text" placeholder="Username" />
               <Input type="password" placeholder="Old Password" />
               <Input type="password" placeholder="New Password" />
               <Input type="password" placeholder="Confirm New Password" />

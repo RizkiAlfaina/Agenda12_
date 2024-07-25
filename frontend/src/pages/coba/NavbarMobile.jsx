@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookUser, Database, Home, KeyRound, LogOut, Menu, MenuIcon, ScrollText, Settings, User } from 'lucide-react';
+import { BookUser, Database, Home, KeyRound, LogOut, Menu, ScrollText, Settings, User } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,12 +13,26 @@ import { RxDashboard } from "react-icons/rx";
 export default function NavbarMobile() {
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(null);
 
   const navigate = useNavigate();
   
   const handleLinkClick = (path) => {
     navigate(path);
     setIsSheetOpen(false); // Menutup Sheet setelah link diklik
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setSelectedTab(null);
+    setIsDropdownOpen(false); // Close the entire dropdown menu
+  };
+
+  const handleResetPasswordClick = () => {
+    navigate('/reset-password');
+    setSelectedTab(null);
+    setIsDropdownOpen(false); // Close the entire dropdown menu
   };
 
   function handleClick() {
@@ -134,7 +148,7 @@ export default function NavbarMobile() {
           {getTime()}
         </div>
       </div>
-      <DropdownMenu>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
             <Avatar>
@@ -163,7 +177,7 @@ export default function NavbarMobile() {
             </Card>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Tabs defaultValue="profile" className="w-[400px]">
+          <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-[400px]">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="profile" className="gap-2">
                 <User className="h-4 w-4" /> Profile
@@ -173,20 +187,24 @@ export default function NavbarMobile() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="profile">
-              <Link href="#" className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted">
+              <Link
+                to="/profile-info"
+                className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
+                onClick={handleProfileClick}
+              >
                 <User className="h-4 w-4" />
                 Profile Info
               </Link>
             </TabsContent>
             <TabsContent value="setting">
-              <Link to="/reset-password" className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted">
+              <Link
+                to="/reset-password"
+                className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
+                onClick={handleResetPasswordClick}
+              >
                 <KeyRound className="h-4 w-4" />
                 Reset Password
               </Link>
-              {/* <Link href="#" className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted">
-                <MenuIcon className="h-4 w-4" />
-                Platform Menu
-              </Link> */}
             </TabsContent>
           </Tabs>
         </DropdownMenuContent>
