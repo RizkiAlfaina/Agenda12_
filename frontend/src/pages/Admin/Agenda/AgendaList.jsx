@@ -13,10 +13,12 @@ export default function AgendaList({ apiUrl }) {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
   const [agendas, setAgendas] = useState([]);
+  const [sortColumn, setSortColumn] = useState('tanggal');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   useEffect(() => {
     getAgendas();
-  }, [currentPage, itemsPerPage, searchTerm]);
+  }, [currentPage, itemsPerPage, searchTerm, sortColumn, sortDirection]);
 
   const getAgendas = async () => {
     try {
@@ -25,6 +27,8 @@ export default function AgendaList({ apiUrl }) {
           search: searchTerm,
           page: currentPage,
           limit: itemsPerPage,
+          sortColumn,
+          sortDirection,
         },
       });
       setAgendas(response.data.data);
@@ -40,6 +44,15 @@ export default function AgendaList({ apiUrl }) {
       getAgendas(); // Refresh the list after deleting
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
     }
   };
 
@@ -74,6 +87,9 @@ export default function AgendaList({ apiUrl }) {
             deleteAgenda={deleteAgenda}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
+            handleSort={handleSort}
+            sortColumn={sortColumn}
+            sortDirection={sortDirection}
           />
           <PaginationControls
             currentPage={currentPage}

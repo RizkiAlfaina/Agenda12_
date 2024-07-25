@@ -31,9 +31,11 @@ export const createAgenda = async (req, res) => {
 };
 
 // Get all agendas with search and pagination
+// Get all agendas with search and pagination
+// Get all agendas with search and pagination
 export const getAgendas = async (req, res) => {
   try {
-    const { search = '', page = 1, limit = 10 } = req.query;
+    const { search = '', page = 1, limit = 10, sortColumn = 'tanggal', sortDirection = 'asc' } = req.query;
     const offset = (page - 1) * limit;
 
     const { rows, count } = await Agenda.findAndCountAll({
@@ -47,7 +49,10 @@ export const getAgendas = async (req, res) => {
           { status: { [Op.like]: `%${search}%` } }
         ]
       },
-      order: [['tanggal', 'ASC'], ['time', 'ASC']],
+      order: [
+        [sortColumn, sortDirection],
+        ['time', sortDirection]
+      ],
       limit: parseInt(limit),
       offset: parseInt(offset),
       include: [
@@ -80,6 +85,8 @@ export const getAgendas = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 // Get an agenda by ID
 export const getAgendaById = async (req, res) => {
