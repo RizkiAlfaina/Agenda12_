@@ -84,7 +84,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleS
                 </TableCell>
                 <TableCell>
                   <div className="font-bold">{agenda.agenda}</div>
-                  <div className="text-sm text-gray-500 lg:hidden">
+                  <div className="text-sm text-gray-500 lg:hidden md:hidden">
                     <div>
                       <span className="font-semibold">Hari: </span>
                       <Badge className="text-xs" variant="secondary">
