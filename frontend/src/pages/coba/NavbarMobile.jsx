@@ -23,14 +23,14 @@ export default function NavbarMobile() {
     setIsSheetOpen(false); // Menutup Sheet setelah link diklik
   };
 
-  const handleProfileClick = () => {
-    navigate('/profile');
-    setSelectedTab(null);
-    setIsDropdownOpen(false); // Close the entire dropdown menu
-  };
+  // const handleProfileClick = () => {
+  //   navigate('/profile-info');
+  //   setSelectedTab(null);
+  //   setIsDropdownOpen(false); // Close the entire dropdown menu
+  // };
 
   const handleResetPasswordClick = () => {
-    navigate('/reset-password');
+    navigate('/setting');
     setSelectedTab(null);
     setIsDropdownOpen(false); // Close the entire dropdown menu
   };
@@ -178,15 +178,18 @@ export default function NavbarMobile() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-[400px]">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="profile" className="gap-2">
-                <User className="h-4 w-4" /> Profile
-              </TabsTrigger>
+            <TabsList className="grid w-full grid-cols-1">
               <TabsTrigger value="setting" className="gap-2">
-                <Settings className="h-4 w-4" /> Setting
+                <Link
+                  to="/setting"
+                  className="text-sm flex items-center gap-3 rounded-lg px-2 py-1 text-muted"
+                  onClick={handleResetPasswordClick}
+                >
+                  <Settings className="h-4 w-4" /> Setting
+                </Link>
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="profile">
+            {/* <TabsContent value="profile">
               <Link
                 to="/profile-info"
                 className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
@@ -195,8 +198,8 @@ export default function NavbarMobile() {
                 <User className="h-4 w-4" />
                 Profile Info
               </Link>
-            </TabsContent>
-            <TabsContent value="setting">
+            </TabsContent> */}
+            {/* <TabsContent value="setting">
               <Link
                 to="/reset-password"
                 className="text-sm flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
@@ -205,7 +208,7 @@ export default function NavbarMobile() {
                 <KeyRound className="h-4 w-4" />
                 Reset Password
               </Link>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </DropdownMenuContent>
       </DropdownMenu>

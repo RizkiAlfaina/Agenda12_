@@ -7,7 +7,7 @@ import OnGoing from './pages/Admin/Dashboard/OnGoing';
 import AgendaList from './pages/Admin/Agenda/AgendaList';
 import EditAgenda from './pages/Admin/Agenda/EditAgenda';
 import Login from './pages/LoginandRegist/Login';
-import ResetPassword from './pages/reset-password/ResetPasword';
+import Setting from './pages/setting-profile/Setting';
 import AddAgenda from './pages/Admin/Agenda/AddAgenda';
 import DisposisiList from './pages/Admin/MasterData/Disposisi/DisposisiList';
 import AddDisposisi from './pages/Admin/MasterData/Disposisi/AddDisposisi';
@@ -41,7 +41,7 @@ function App({ apiUrl }) {
                 <Route path='/agenda' element={<AgendaList apiUrl={apiUrl} />} />
                 <Route path='/agenda/add-agenda' element={<AddAgenda apiUrl={apiUrl} />} />
                 <Route path='/agenda/edit-agenda/:id' element={<EditAgenda apiUrl={apiUrl} />} />
-                <Route path='/reset-password' element={<ResetPassword />} />
+                <Route path='/setting' element={<Setting />} />
                 <Route path='/disposisi' element={<DisposisiList apiUrl={apiUrl} />} />
                 <Route path='/disposisi/add-disp' element={<AddDisposisi apiUrl={apiUrl} />} />
               </Routes>
