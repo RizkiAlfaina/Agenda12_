@@ -14,14 +14,6 @@ const formatDate = (dateString) => {
   return format(date, 'EEEE, dd-MM-yyyy', { locale: id });
 };
 
-const formatDateTime = (dateString, timeString) => {
-  const date = parseISO(dateString);
-  const [hours, minutes, seconds] = timeString.split(':');
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
-  return date;
-};
 
 const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleSort, sortColumn, sortDirection }) => {
 
@@ -96,7 +88,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleS
                       </Badge>
                     </div>
                     <div>
-                      <span className="font-semibold">Waktu: </span>{agenda.time}
+                      <span className="font-semibold">Waktu: </span>{agenda.time} 
                     </div>
                     <div>
                       <span className="font-semibold">Estimasi Waktu: </span>

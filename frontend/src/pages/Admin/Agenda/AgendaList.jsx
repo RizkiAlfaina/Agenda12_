@@ -7,8 +7,20 @@ import { Input } from "@/components/ui/input";
 import AgendaTable from './AgendaTable';
 import PaginationControls from './PaginationControls';
 
+const daysOfWeek = [
+  { value: '', label: 'Semua Hari' },
+  { value: 'Minggu', label: 'Minggu' },
+  { value: 'Senin', label: 'Senin' },
+  { value: 'Selasa', label: 'Selasa' },
+  { value: 'Rabu', label: 'Rabu' },
+  { value: 'Kamis', label: 'Kamis' },
+  { value: 'Jumat', label: 'Jumat' },
+  { value: 'Sabtu', label: 'Sabtu' },
+];
+
 export default function AgendaList({ apiUrl }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [dayFilter, setDayFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
@@ -18,7 +30,7 @@ export default function AgendaList({ apiUrl }) {
 
   useEffect(() => {
     getAgendas();
-  }, [currentPage, itemsPerPage, searchTerm, sortColumn, sortDirection]);
+  }, [currentPage, itemsPerPage, searchTerm, sortColumn, sortDirection, dayFilter]);
 
   const getAgendas = async () => {
     try {
@@ -29,6 +41,7 @@ export default function AgendaList({ apiUrl }) {
           limit: itemsPerPage,
           sortColumn,
           sortDirection,
+          dayFilter,
         },
       });
       setAgendas(response.data.data);
@@ -56,6 +69,10 @@ export default function AgendaList({ apiUrl }) {
     }
   };
 
+  const handleDayFilterChange = (e) => {
+    setDayFilter(e.target.value);
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex">
@@ -70,6 +87,20 @@ export default function AgendaList({ apiUrl }) {
               </Button>
             </Link>
             <div className="relative w-full flex justify-end">
+
+              <div className="relative ml-4 flex-1 md:grow-0">
+                <select
+                  className="w-full rounded-lg bg-background pl-2 md:w-[200px] lg:w-[336px]"
+                  value={dayFilter}
+                  onChange={handleDayFilterChange}
+                >
+                  {daysOfWeek.map((day) => (
+                    <option key={day.value} value={day.value}>
+                      {day.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="relative ml-auto flex-1 md:grow-0">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input

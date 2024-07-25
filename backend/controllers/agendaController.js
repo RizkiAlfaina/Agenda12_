@@ -10,6 +10,20 @@ const formatDateToISO = (date) => {
   return formattedDate.toISOString().split('T')[0];
 };
 
+// Utility function to get day of the week as a number (0-6)
+const getDayOfWeekNumber = (dayName) => {
+  const days = {
+    Minggu: 0,
+    Senin: 1,
+    Selasa: 2,
+    Rabu: 3,
+    Kamis: 4,
+    Jumat: 5,
+    Sabtu: 6,
+  };
+  return days[dayName];
+};
+
 // Create new agenda with multiple disposisiIds
 export const createAgenda = async (req, res) => {
   try {
@@ -31,22 +45,31 @@ export const createAgenda = async (req, res) => {
 };
 
 // Get all agendas with search and pagination
-// Get all agendas with search and pagination
-// Get all agendas with search and pagination
 export const getAgendas = async (req, res) => {
   try {
-    const { search = '', page = 1, limit = 10, sortColumn = 'tanggal', sortDirection = 'asc' } = req.query;
+    const { search = '', page = 1, limit = 10, sortColumn = 'tanggal', sortDirection = 'asc', dayFilter = '' } = req.query;
     const offset = (page - 1) * limit;
+
+    let dayCondition = {};
+    if (dayFilter) {
+      const dayNumber = getDayOfWeekNumber(dayFilter);
+      dayCondition = Sequelize.where(Sequelize.fn('DAYOFWEEK', Sequelize.col('tanggal')), dayNumber + 1);
+    }
 
     const { rows, count } = await Agenda.findAndCountAll({
       where: {
-        [Op.or]: [
-          { time: { [Op.like]: `%${search}%` } },
-          { tanggal: { [Op.like]: `%${search}%` } },
-          { agenda: { [Op.like]: `%${search}%` } },
-          { UPS: { [Op.like]: `%${search}%` } },
-          { loc: { [Op.like]: `%${search}%` } },
-          { status: { [Op.like]: `%${search}%` } }
+        [Op.and]: [
+          {
+            [Op.or]: [
+              { time: { [Op.like]: `%${search}%` } },
+              { tanggal: { [Op.like]: `%${search}%` } },
+              { agenda: { [Op.like]: `%${search}%` } },
+              { UPS: { [Op.like]: `%${search}%` } },
+              { loc: { [Op.like]: `%${search}%` } },
+              { status: { [Op.like]: `%${search}%` } }
+            ]
+          },
+          dayCondition
         ]
       },
       order: [
@@ -85,8 +108,6 @@ export const getAgendas = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
 
 // Get an agenda by ID
 export const getAgendaById = async (req, res) => {
