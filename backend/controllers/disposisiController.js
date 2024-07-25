@@ -78,3 +78,14 @@ export const deleteDisposisi = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const countDisposisi = async (req, res) => {
+  try {
+    console.log('Counting total Disposisi'); // Debug log
+    const count = await Disposisi.count();
+    res.status(200).json({ totalDisposisi: count });
+  } catch (error) {
+    console.error('Error counting Disposisi:', error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

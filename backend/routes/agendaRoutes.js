@@ -15,6 +15,6 @@ router.get('/agendas/:id', getAgendaById);
 router.post('/agendas', createAgenda);
 router.patch('/agendas/:id', updateAgenda);
 router.delete('/agendas/:id', deleteAgenda);
-router.get('/count', countAgendas); // Add the new route
+router.get('/count/agendas', countAgendas); // Add the new route
 
 export default router;
