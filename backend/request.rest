@@ -4,7 +4,7 @@ GET http://localhost:5000/disposisi
 GET http://localhost:5000/agendas
 
 ###
-GET http://localhost:5000/count
+GET http://localhost:5000/count/disposisi
 
 ###
 POST http://localhost:5000/disposisi

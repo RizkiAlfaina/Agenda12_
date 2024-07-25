@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -14,41 +14,8 @@ const formatDate = (dateString) => {
   return format(date, 'EEEE, dd-MM-yyyy', { locale: id });
 };
 
-const formatDateTime = (dateString, timeString) => {
-  const date = parseISO(dateString);
-  const [hours, minutes, seconds] = timeString.split(':');
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
-  return date;
-};
 
-const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
-  const [sortColumn, setSortColumn] = useState('');
-  const [sortDirection, setSortDirection] = useState('asc');
-
-  const handleSort = (column) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('asc');
-    }
-  };
-
-  const sortedAgendas = [...agendas].sort((a, b) => {
-    if (sortColumn === 'hari') {
-      const dateTimeA = formatDateTime(a.tanggal, a.time);
-      const dateTimeB = formatDateTime(b.tanggal, b.time);
-      return sortDirection === 'asc' ? dateTimeA - dateTimeB : dateTimeB - dateTimeA;
-    } else if (sortColumn === 'loc' || sortColumn === 'UPS') {
-      return sortDirection === 'asc'
-        ? a[sortColumn].localeCompare(b[sortColumn])
-        : b[sortColumn].localeCompare(a[sortColumn]);
-    } else {
-      return 0;
-    }
-  });
+const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleSort, sortColumn, sortDirection }) => {
 
   const renderSortIcon = (column) => {
     if (sortColumn !== column) return null;
@@ -72,7 +39,6 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
     
     return hours > 0 ? `${hours} jam ${remainingMinutes} menit` : `${remainingMinutes} menit`;
   };
-  
 
   return (
     <div className="overflow-x-auto">
@@ -80,8 +46,8 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
         <TableHeader>
           <TableRow>
             <TableHead className="hidden sm:table-cell">No</TableHead>
-            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('hari')}>
-              Hari {renderSortIcon('hari')}
+            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('tanggal')}>
+              Hari {renderSortIcon('tanggal')}
             </TableHead>
             <TableHead className="hidden sm:table-cell">Waktu</TableHead>
             <TableHead className="hidden sm:table-cell">Estimasi Waktu</TableHead>
@@ -98,7 +64,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedAgendas.map((agenda, index) => {
+          {agendas.map((agenda, index) => {
             const agendaNumber = startIndex + index + 1;
             return (
               <TableRow className="bg-accent" key={agenda.id}>
@@ -122,7 +88,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                       </Badge>
                     </div>
                     <div>
-                      <span className="font-semibold">Waktu: </span>{agenda.time}
+                      <span className="font-semibold">Waktu: </span>{agenda.time} 
                     </div>
                     <div>
                       <span className="font-semibold">Estimasi Waktu: </span>

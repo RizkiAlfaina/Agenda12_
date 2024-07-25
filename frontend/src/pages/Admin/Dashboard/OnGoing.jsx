@@ -21,7 +21,10 @@ export default function OnGoing({ apiUrl }) {
 
   const fetchCounts = async () => {
     try {
-      const agendaResponse = await axios.get(`${apiUrl}/count`);
+      const agendaResponse = await axios.get(`${apiUrl}/count/agendas`);
+      const disposisiResponse = await axios.get(`${apiUrl}/count/disposisi`)
+      const disposisiData = disposisiResponse.data;
+      const totalDisposisi = disposisiData.totalDisposisi;
       const agendaData = agendaResponse.data;
       const totalAgendas = agendaData.totalAgendas;
 
@@ -31,9 +34,14 @@ export default function OnGoing({ apiUrl }) {
         animateCount(setAgendaCount, totalAgendas);
       }
 
+      if (totalDisposisi === null || totalDisposisi === 0) {
+        setAgendaCount(0); // Set langsung tanpa animasi
+      } else {
+        animateCount(setDisposisiCount, totalDisposisi);
+      }
+
       // Animasi untuk count lainnya (disesuaikan jika menggunakan API yang sebenarnya)
       animateCount(setRuanganCount, 9);
-      animateCount(setDisposisiCount, 60);
       animateCount(setUsersCount, 1);
     } catch (error) {
       console.error('Error fetching counts:', error);
