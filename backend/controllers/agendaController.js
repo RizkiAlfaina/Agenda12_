@@ -66,7 +66,7 @@ export const getAgendas = async (req, res) => {
               { agenda: { [Op.like]: `%${search}%` } },
               { UPS: { [Op.like]: `%${search}%` } },
               { loc: { [Op.like]: `%${search}%` } },
-              { status: { [Op.like]: `%${search}%` } }
+              { status: { [Op.like]: `%${search}%` } },
             ]
           },
           dayCondition

@@ -1,5 +1,4 @@
 import Disposisi from "../models/Disposisi.js";
-import Agenda from "../models/Agenda.js";
 import { Op } from "sequelize";
 
 // Utility function to format dates to ISO format
@@ -12,8 +11,25 @@ const formatDateToISO = (date) => {
 // Get all disposisi with search and pagination
 export const getDisposisi = async (req, res) => {
   try {
-    const disposisi = await Disposisi.findAll();
-    res.status(200).json(disposisi);
+    const { search = '', page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+
+    const { rows, count } = await Disposisi.findAndCountAll({
+      where: {
+        [Op.or]: [
+          { jabatan: { [Op.like]: `%${search}%` } }
+        ]
+      },
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+    });
+
+    res.status(200).json({
+      data: rows,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(count / limit),
+      totalItems: count,
+    });
   } catch (error) {
     console.error('Error fetching disposisi:', error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -79,6 +95,7 @@ export const deleteDisposisi = async (req, res) => {
   }
 };
 
+// Count total disposisi
 export const countDisposisi = async (req, res) => {
   try {
     console.log('Counting total Disposisi'); // Debug log

@@ -58,8 +58,12 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleS
             <TableHead className="hidden sm:table-cell" onClick={() => handleSort('loc')}>
               Lokasi {renderSortIcon('loc')}
             </TableHead>
-            <TableHead className="hidden sm:table-cell">Disposisi</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className="hidden sm:table-cell">
+              Disposisi
+            </TableHead>
+            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('status')}>
+              Status {renderSortIcon('status')}
+            </TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>

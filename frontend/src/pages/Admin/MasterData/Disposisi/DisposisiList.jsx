@@ -1,10 +1,26 @@
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from 'react-router-dom';
 import { FilePlus2, Search } from "lucide-react";
 import DisposisiTable from "./DisposisiTable";
+import PaginationControls from '../../Agenda/PaginationControls';
 
 export default function DisposisiList({ apiUrl }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex">
@@ -25,20 +41,26 @@ export default function DisposisiList({ apiUrl }) {
                   type="search"
                   placeholder="Search..."
                   className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-                  // value={searchTerm}
-                  // onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchTerm}
+                  onChange={handleSearch}
                 />
               </div>
             </div>
           </div>
-          <DisposisiTable apiUrl={apiUrl} />
-          {/* <PaginationControls
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-          /> */}
+          <DisposisiTable
+            apiUrl={apiUrl}
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            setTotalPages={setTotalPages}
+          />
+          <PaginationControls
+            currentPage={currentPage}
+            setCurrentPage={handlePageChange}
+            totalPages={totalPages}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+          />
         </div>
       </div>
     </main>
