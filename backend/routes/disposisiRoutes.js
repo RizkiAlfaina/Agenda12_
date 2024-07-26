@@ -4,12 +4,14 @@ import {
     getDisposisiById,
     createDisposisi,
     updateDisposisi,
-    deleteDisposisi
+    deleteDisposisi,
+    getDisposisiPagination
 } from "../controllers/disposisiController.js"; // Adjust the path as necessary
 
 const router = express.Router();
 
 router.get('/disposisi', getDisposisi);
+router.get('/disposisiPagination', getDisposisiPagination);
 router.get('/disposisi/:id', getDisposisiById);
 router.post('/disposisi', createDisposisi);
 router.patch('/disposisi/:id', updateDisposisi);

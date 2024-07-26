@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import axios from 'axios';
 
-const DisposisiTable = ({ apiUrl }) => {
+const DisposisiTable = ({ apiUrl, searchTerm, currentPage, itemsPerPage, setTotalPages, setCurrentPage }) => {
   const [disposisiList, setDisposisiList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,12 +13,20 @@ const DisposisiTable = ({ apiUrl }) => {
 
   useEffect(() => {
     fetchDisposisi();
-  }, []);
+  }, [searchTerm, currentPage]);
 
   const fetchDisposisi = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${apiUrl}/disposisi`);
-      setDisposisiList(response.data);
+      const response = await axios.get(`${apiUrl}/disposisiPagination`, {
+        params: {
+          search: searchTerm,
+          page: currentPage,
+          limit: itemsPerPage
+        }
+      });
+      setDisposisiList(response.data.data);
+      setTotalPages(response.data.totalPages);
       setLoading(false);
     } catch (error) {
       setError(error.message);

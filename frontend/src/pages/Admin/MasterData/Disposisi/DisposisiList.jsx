@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from 'react-router-dom';
@@ -5,6 +6,16 @@ import { FilePlus2, Search } from "lucide-react";
 import DisposisiTable from "./DisposisiTable";
 
 export default function DisposisiList({ apiUrl }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage] = useState(10);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex">
@@ -25,20 +36,36 @@ export default function DisposisiList({ apiUrl }) {
                   type="search"
                   placeholder="Search..."
                   className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
-                  // value={searchTerm}
-                  // onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchTerm}
+                  onChange={handleSearch}
                 />
               </div>
             </div>
           </div>
-          <DisposisiTable apiUrl={apiUrl} />
-          {/* <PaginationControls
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-          /> */}
+          <DisposisiTable
+            apiUrl={apiUrl}
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            setTotalPages={setTotalPages}
+            setCurrentPage={setCurrentPage}
+          />
+          <div className="flex justify-between mt-4">
+            <Button
+              variant="outline"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </main>

@@ -78,3 +78,28 @@ export const deleteDisposisi = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const getDisposisiPagination = async (req, res) => {
+  try {
+    const { search = '', page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+
+    const { rows, count } = await Disposisi.findAndCountAll({
+      where: {
+        jabatan: { [Op.like]: `%${search}%` }
+      },
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+
+    res.status(200).json({
+      data: rows,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(count / limit),
+      totalItems: count
+    });
+  } catch (error) {
+    console.error('Error fetching disposisi:', error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
