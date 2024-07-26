@@ -18,7 +18,7 @@ const DisposisiTable = ({ apiUrl, searchTerm, currentPage, itemsPerPage, setTota
   const fetchDisposisi = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${apiUrl}/disposisi`, {
+      const response = await axios.get(`${apiUrl}/disposisiPagination`, {
         params: {
           search: searchTerm,
           page: currentPage,

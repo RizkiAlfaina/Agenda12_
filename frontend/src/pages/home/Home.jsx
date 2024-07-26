@@ -49,7 +49,7 @@ export default function Home({ apiUrl }) {
         const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
         const minutesDifference = differenceInMinutes(agendaDateTime, currentTime);
         let newStatus = agenda.status;
-        const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
+        const estimatedEndTime = agenda.estimatedTime !== 0 ? agenda.estimatedTime : 180;
         
         if (agenda.status === "Dibatalkan") {
           return agenda; // Skip updating if the status is "Dibatalkan"
@@ -88,7 +88,7 @@ export default function Home({ apiUrl }) {
         if (agenda.status === "Sudah Rapat") {
           const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
           const minutesSinceEnd = differenceInMinutes(currentTime, agendaDateTime);
-          const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
+          const estimatedEndTime = agenda.estimatedTime !== 0 ? agenda.estimatedTime : 180;
           return minutesSinceEnd <= estimatedEndTime;
         }
         return true;
@@ -159,7 +159,7 @@ export default function Home({ apiUrl }) {
   const getNotification = (agenda) => {
     const agendaDateTime = parseISO(`${agenda.tanggal}T${agenda.time}`);
     const minutesDifference = differenceInMinutes(agendaDateTime, currentTime);
-    const estimatedEndTime = agenda.estimatedTime !== null ? agenda.estimatedTime : 180;
+    const estimatedEndTime = agenda.estimatedTime !== 0 ? agenda.estimatedTime : 180;
     if (minutesDifference <= 30 && minutesDifference > 15) {
       return "Rapat dimulai 30 Menit Lagi";
     } else if (minutesDifference <= 15 && minutesDifference > 0) {
