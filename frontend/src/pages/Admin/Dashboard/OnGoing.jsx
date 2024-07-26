@@ -74,7 +74,7 @@ export default function OnGoing({ apiUrl }) {
         <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
       </div>
       <div className="flex flex-wrap justify-center gap-4 p-4 rounded-lg border border-dashed shadow-sm w-full">
-        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-blue-500 text-white cursor-pointer hover:bg-blue-700" onClick={() => handleCardClick('/agenda')}>
+        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-blue-500 text-white cursor-pointer hover:bg-blue-700 hover-text-foreground transition transform hover:scale-105 hover:shadow-lg" onClick={() => handleCardClick('/agenda')}>
           <FaClipboardList className="text-6xl sm:text-5xl lg:text-6xl mb-1" />
           <CardContent>
             <div className="flex flex-col items-center gap-2">
@@ -84,7 +84,7 @@ export default function OnGoing({ apiUrl }) {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-red-500 text-white cursor-pointer hover:bg-red-700" onClick={() => handleCardClick('/lokasi-rapat')}>
+        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-red-500 text-white cursor-pointer hover:bg-red-700 hover-text-foreground transition transform hover:scale-105 hover:shadow-lg" onClick={() => handleCardClick('#')}>
           <FaMapMarkerAlt className="text-6xl sm:text-5xl lg:text-6xl" />
           <CardContent>
             <div className="flex flex-col items-center gap-2 mb-1">
@@ -94,7 +94,7 @@ export default function OnGoing({ apiUrl }) {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-green-500 text-white cursor-pointer hover:bg-green-700" onClick={() => handleCardClick('/disposisi')}>
+        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-green-500 text-white cursor-pointer hover:bg-green-700 hover-text-foreground transition transform hover:scale-105 hover:shadow-lg" onClick={() => handleCardClick('/disposisi')}>
           <FaUsers className="text-6xl sm:text-5xl lg:text-6xl" />
           <CardContent>
             <div className="flex flex-col items-center gap-2 mb-1">
@@ -104,7 +104,7 @@ export default function OnGoing({ apiUrl }) {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-yellow-500 text-white cursor-pointer hover:bg-yellow-700" onClick={() => handleCardClick('/users')}>
+        <Card className="flex flex-col items-center justify-center w-60 h-60 sm:w-48 sm:h-48 lg:w-60 lg:h-60 p-5 bg-yellow-500 text-white cursor-pointer hover:bg-yellow-700 hover-text-foreground transition transform hover:scale-105 hover:shadow-lg" onClick={() => handleCardClick('#')}>
           <FaUserPlus className="text-6xl sm:text-5xl lg:text-6xl" />
           <CardContent>
             <div className="flex flex-col items-center gap-2 mb-1">

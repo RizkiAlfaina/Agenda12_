@@ -127,13 +127,13 @@ export default function NavbarMobile() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <nav className="grid items-start text-sm font-medium lg:px-4">
-                    <span onClick={() => handleLinkClick('/terminal')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                    {/* <span onClick={() => handleLinkClick('/terminal')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
                       Terminal
-                    </span>
-                    <span onClick={() => handleLinkClick('/employee')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                    </span> */}
+                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
                       Employee
                     </span>
-                    <span onClick={() => handleLinkClick('/role')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
                       Role
                     </span>
                   </nav>
