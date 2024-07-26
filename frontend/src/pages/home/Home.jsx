@@ -30,6 +30,7 @@ export default function Home({ apiUrl }) {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [headerVisible, setHeaderVisible] = useState(true);
 
   useEffect(() => {
     const getAgendas = async () => {
@@ -93,7 +94,6 @@ export default function Home({ apiUrl }) {
         return true;
       });
     };
-    
 
     getAgendas();
 
@@ -184,34 +184,35 @@ export default function Home({ apiUrl }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="z-10 bg-white/50 flex items-center h-16 content-center border-b bg-background px-4 md:px-6">
-        {currentUser ? (
-          <div className="flex items-center space-x-4 ml-auto">
-            <div onClick={dashboardClick} className="text-black cursor-pointer">
-              Dashboard
+      {headerVisible && (
+        <header className="z-10 bg-white/50 flex items-center h-16 content-center border-b bg-background px-4 md:px-6">
+          {currentUser ? (
+            <div className="flex items-center space-x-4 ml-auto">
+              <div onClick={dashboardClick} className="text-black cursor-pointer">
+                Dashboard
+              </div>
+              <Button onClick={logOut} className="px-4 py-2 bg-blue-500 text-white rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
+                Logout
+              </Button>
             </div>
-            <Button onClick={logOut} className="px-4 py-2 bg-blue-500 text-white rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
-              Logout
-            </Button>
-          </div>        
-        ) : (
-          <div className="navbar-nav ml-auto">
+          ) : (
+            <div className="navbar-nav ml-auto">
               <Button onClick={handleClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg rounded-xl text-primary hover:text-foreground hover:bg-blue-600 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                 Login
               </Button>
-
-          </div>
-        )}
-      </header>
-      <div className="grid grid-cols-3 items-center gap-2 mb-0.1 mt-0.1">
-        <div className="flex items-center col-span-1">
-            <img src="/pupr.jpg" className="ml-4 w-12 md:w-16" alt="Logo" />
-            <div className="ml-2 text-foreground text-xl md:text-2xl sm:text-xl font-bold transition-colors hover:text-foreground">
-                BBWS BRANTAS
             </div>
+          )}
+        </header>
+      )}
+      <div className="grid grid-cols-3 items-center gap-2 mb-0.1 mt-4">
+        <div className="flex items-center col-span-1 cursor-pointer" onClick={() => setHeaderVisible(!headerVisible)}>
+          <img src="/pupr.jpg" className="ml-4 w-12 md:w-16" alt="Logo" />
+          <div className="ml-2 text-foreground text-xl md:text-2xl sm:text-xl font-bold transition-colors hover:text-foreground">
+            BBWS BRANTAS
+          </div>
         </div>
         <h1 className="col-span-3 md:col-span-2 lg:col-span-1 text-center text-xl md:text-2xl lg:text-2xl font-bold mt-4 mb-5">
-            AGENDA RAPAT BIDANG KPISDA
+          AGENDA RAPAT BIDANG KPISDA
         </h1>
       </div>
 
