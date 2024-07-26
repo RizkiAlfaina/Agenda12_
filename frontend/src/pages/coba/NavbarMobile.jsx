@@ -9,12 +9,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link, useNavigate } from 'react-router-dom';
 import { RxDashboard } from "react-icons/rx";
+import AuthService from '../LoginandRegist/auth.service';
 
 export default function NavbarMobile() {
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(null);
+  const currentUser = AuthService.getCurrentUser();
 
   const navigate = useNavigate();
   
@@ -167,8 +169,11 @@ export default function NavbarMobile() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="font-bold">Admin</span>
-                  <span className="text-muted-foreground text-xs">SYSTEM ADMIN</span>
+                  <span className="font-bold">{currentUser.username}</span>
+                  <span className="text-muted-foreground text-xs">
+                  {currentUser.roles &&
+                     currentUser.roles.map((role, index) => <p key={index}>{role}</p>)}
+                  </span>
                 </div>
                 <Button onClick={handleClick} className="absolute right-10">
                   <LogOut className="h-4 w-4" />
