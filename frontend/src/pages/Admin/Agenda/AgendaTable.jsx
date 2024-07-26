@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -14,41 +14,8 @@ const formatDate = (dateString) => {
   return format(date, 'EEEE, dd-MM-yyyy', { locale: id });
 };
 
-const formatDateTime = (dateString, timeString) => {
-  const date = parseISO(dateString);
-  const [hours, minutes, seconds] = timeString.split(':');
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
-  return date;
-};
 
-const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
-  const [sortColumn, setSortColumn] = useState('');
-  const [sortDirection, setSortDirection] = useState('asc');
-
-  const handleSort = (column) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('asc');
-    }
-  };
-
-  const sortedAgendas = [...agendas].sort((a, b) => {
-    if (sortColumn === 'hari') {
-      const dateTimeA = formatDateTime(a.tanggal, a.time);
-      const dateTimeB = formatDateTime(b.tanggal, b.time);
-      return sortDirection === 'asc' ? dateTimeA - dateTimeB : dateTimeB - dateTimeA;
-    } else if (sortColumn === 'loc' || sortColumn === 'UPS') {
-      return sortDirection === 'asc'
-        ? a[sortColumn].localeCompare(b[sortColumn])
-        : b[sortColumn].localeCompare(a[sortColumn]);
-    } else {
-      return 0;
-    }
-  });
+const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleSort, sortColumn, sortDirection }) => {
 
   const renderSortIcon = (column) => {
     if (sortColumn !== column) return null;
@@ -72,7 +39,6 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
     
     return hours > 0 ? `${hours} jam ${remainingMinutes} menit` : `${remainingMinutes} menit`;
   };
-  
 
   return (
     <div className="overflow-x-auto">
@@ -80,8 +46,8 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
         <TableHeader>
           <TableRow>
             <TableHead className="hidden sm:table-cell">No</TableHead>
-            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('hari')}>
-              Hari {renderSortIcon('hari')}
+            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('tanggal')}>
+              Hari {renderSortIcon('tanggal')}
             </TableHead>
             <TableHead className="hidden sm:table-cell">Waktu</TableHead>
             <TableHead className="hidden sm:table-cell">Estimasi Waktu</TableHead>
@@ -92,13 +58,17 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
             <TableHead className="hidden sm:table-cell" onClick={() => handleSort('loc')}>
               Lokasi {renderSortIcon('loc')}
             </TableHead>
-            <TableHead className="hidden sm:table-cell">Disposisi</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead className="hidden sm:table-cell">
+              Disposisi
+            </TableHead>
+            <TableHead className="hidden sm:table-cell" onClick={() => handleSort('status')}>
+              Status {renderSortIcon('status')}
+            </TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedAgendas.map((agenda, index) => {
+          {agendas.map((agenda, index) => {
             const agendaNumber = startIndex + index + 1;
             return (
               <TableRow className="bg-accent" key={agenda.id}>
@@ -114,7 +84,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                 </TableCell>
                 <TableCell>
                   <div className="font-bold">{agenda.agenda}</div>
-                  <div className="text-sm text-gray-500 lg:hidden">
+                  <div className="text-sm text-gray-500 lg:hidden md:hidden">
                     <div>
                       <span className="font-semibold">Hari: </span>
                       <Badge className="text-xs" variant="secondary">
@@ -122,7 +92,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                       </Badge>
                     </div>
                     <div>
-                      <span className="font-semibold">Waktu: </span>{agenda.time}
+                      <span className="font-semibold">Waktu: </span>{agenda.time} 
                     </div>
                     <div>
                       <span className="font-semibold">Estimasi Waktu: </span>
@@ -166,7 +136,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                   <Link to={`/agenda/edit-agenda/${agenda.id}`} className="w-full sm:w-auto">
                     <Dialog id="edit">
                       <DialogTrigger asChild>
-                        <Button className="flex items-center gap-2 rounded-xl bg-green-500 text-primary hover:text-foreground hover:bg-green-600 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2">
+                        <Button className="flex items-center gap-2 rounded-xl bg-green-500 text-primary hover:text-foreground hover:bg-green-600 w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2 hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                           <Edit className="h-4 w-4" />
                           Edit
                         </Button>
@@ -175,7 +145,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage }) => {
                   </Link>
                   <Dialog id="trash">
                     <DialogTrigger asChild>
-                      <Button className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 w-full sm:w-auto">
+                      <Button className="flex items-center gap-2 rounded-xl bg-red-500 text-primary hover:text-foreground hover:bg-red-600 w-full sm:w-auto hover:text-white transition transform hover:scale-105 hover:shadow-lg">
                         <Trash2 className="h-4 w-4" />Delete
                       </Button>
                     </DialogTrigger>
