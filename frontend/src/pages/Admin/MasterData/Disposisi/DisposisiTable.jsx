@@ -86,8 +86,9 @@ const DisposisiTable = ({ apiUrl, searchTerm, currentPage, itemsPerPage, setTota
                     </DialogHeader>
                     Delete this data?
                     <DialogFooter>
-                      <Button
+                      <Button 
                         type="submit"
+                        className="bg-black text-white hover:text-foreground hover:bg-black hover:text-white transition transform hover:scale-105 hover:shadow-lg"
                         onClick={() => {
                           deleteDisposisi(selectedDisposisiId);
                         }}

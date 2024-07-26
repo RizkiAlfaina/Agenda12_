@@ -155,7 +155,7 @@ const AgendaTable = ({ agendas, deleteAgenda, currentPage, itemsPerPage, handleS
                       </DialogHeader>
                       Hapus data ini?
                       <DialogFooter>
-                        <Button onClick={() => deleteAgenda(agenda.id)} type="submit">Hapus</Button>
+                        <Button onClick={() => deleteAgenda(agenda.id)} type="submit" className="bg-black text-white hover:text-foreground hover:bg-black hover:text-white transition transform hover:scale-105 hover:shadow-lg">Hapus</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
