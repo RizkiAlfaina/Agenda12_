@@ -63,7 +63,7 @@ export const signin = async (req, res) => {
       {
         algorithm: 'HS256',
         allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
+        expiresIn: 21600, // 24 hours
       }
     );
 
@@ -94,5 +94,142 @@ export const signout = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).send({ message: err.message });
+  }
+};
+
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    user.password = bcrypt.hashSync(req.body.newPassword, 8);
+    await user.save();
+
+    res.send({ message: 'Password was reset successfully!' });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+// CRUD User
+export const createUser = async (req, res) => {
+  try {
+    const user = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8),
+    });
+
+    if (req.body.roles) {
+      const roles = await Role.findAll({
+        where: {
+          name: {
+            [Op.or]: req.body.roles,
+          },
+        },
+      });
+
+      await user.setRoles(roles);
+    } else {
+      await user.setRoles([1]);
+    }
+
+    res.send({ message: 'User created successfully!' });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: ['roles'],
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 8);
+    }
+
+    if (req.body.roles) {
+      const roles = await Role.findAll({
+        where: {
+          name: {
+            [Op.or]: req.body.roles,
+          },
+        },
+      });
+      await user.setRoles(roles);
+    }
+
+    await user.save();
+
+    res.send({ message: 'User updated successfully!' });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    await user.destroy();
+    res.send({ message: 'User deleted successfully!' });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      include: ['roles'],
+    });
+    res.send(users);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
   }
 };
