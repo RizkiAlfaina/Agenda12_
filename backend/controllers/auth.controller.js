@@ -110,6 +110,20 @@ export const resetPassword = async (req, res) => {
       return res.status(404).send({ message: 'User Not found.' });
     }
 
+    const passwordIsValid = bcrypt.compareSync(req.body.oldPassword, user.password);
+
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: 'Invalid Old Password!',
+      });
+    }
+
+    if (req.body.newPassword !== req.body.confirmNewPassword) {
+      return res.status(400).send({
+        message: 'New Password and Confirm New Password do not match!',
+      });
+    }
+
     user.password = bcrypt.hashSync(req.body.newPassword, 8);
     await user.save();
 
@@ -119,117 +133,3 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-// CRUD User
-export const createUser = async (req, res) => {
-  try {
-    const user = await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
-    });
-
-    if (req.body.roles) {
-      const roles = await Role.findAll({
-        where: {
-          name: {
-            [Op.or]: req.body.roles,
-          },
-        },
-      });
-
-      await user.setRoles(roles);
-    } else {
-      await user.setRoles([1]);
-    }
-
-    res.send({ message: 'User created successfully!' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const getUser = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.params.id,
-      },
-      include: ['roles'],
-    });
-
-    if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
-    }
-
-    res.send(user);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const updateUser = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
-    }
-
-    user.username = req.body.username || user.username;
-    user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = bcrypt.hashSync(req.body.password, 8);
-    }
-
-    if (req.body.roles) {
-      const roles = await Role.findAll({
-        where: {
-          name: {
-            [Op.or]: req.body.roles,
-          },
-        },
-      });
-      await user.setRoles(roles);
-    }
-
-    await user.save();
-
-    res.send({ message: 'User updated successfully!' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
-    }
-
-    await user.destroy();
-    res.send({ message: 'User deleted successfully!' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.findAll({
-      include: ['roles'],
-    });
-    res.send(users);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
