@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookUser, Database, Home, KeyRound, LogOut, Menu, ScrollText, Settings, User } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link, useNavigate } from 'react-router-dom';
 import { RxDashboard } from "react-icons/rx";
 import AuthService from '../LoginandRegist/auth.service';
+import EventBus from '../LoginandRegist/EventBus';
 
 export default function NavbarMobile() {
   const [activeAccordion, setActiveAccordion] = useState(null);
@@ -17,6 +18,7 @@ export default function NavbarMobile() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(null);
   const currentUser = AuthService.getCurrentUser();
+  const [currentUsers, setCurrentUsers] = useState(undefined);
 
   const navigate = useNavigate();
   
@@ -30,6 +32,28 @@ export default function NavbarMobile() {
   //   setSelectedTab(null);
   //   setIsDropdownOpen(false); // Close the entire dropdown menu
   // };
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUsers(user);
+    }
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setCurrentUsers(undefined);
+    window.location.replace("/");
+  };
 
   const handleResetPasswordClick = () => {
     navigate('/setting');
@@ -175,7 +199,7 @@ export default function NavbarMobile() {
                      currentUser.roles.map((role, index) => <p key={index}>{role}</p>)}
                   </span>
                 </div>
-                <Button onClick={handleClick} className="absolute right-10">
+                <Button onClick={logOut} className="absolute right-10">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </CardContent>
