@@ -53,6 +53,7 @@ export default function Setting() {
         confirmNewPassword,
       });
       setMessage(response.data.message);
+      navigate('/setting');
     } catch (error) {
       setMessage(error.response.data.message);
     }
