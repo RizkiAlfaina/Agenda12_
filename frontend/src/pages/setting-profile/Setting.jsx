@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { KeyRound, User } from 'lucide-react';
 import AuthService from '../LoginandRegist/auth.service'; // Ensure to update this import with the correct path
 
-export default function Setting() {
+export default function Setting({ apiUrl }) {
   const [selectedTab, setSelectedTab] = useState('profile');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -46,7 +46,7 @@ export default function Setting() {
 
   const handlePasswordReset = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/reset-password', {
+      const response = await axios.post(`${apiUrl}/reset-password`, {
         email,
         oldPassword,
         newPassword,
