@@ -133,17 +133,21 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+
 export const updateProfile = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Assuming the user ID is provided in the URL or request body
+    const { id } = req.params; // or req.body.id if using POST body
     const { username, email } = req.body;
 
+    // Find user by ID
     const user = await User.findOne({ where: { id } });
 
     if (!user) {
       return res.status(404).send({ message: 'User not found.' });
     }
 
+    // Update username and email if provided
     if (username) {
       user.username = username;
     }
@@ -151,18 +155,16 @@ export const updateProfile = async (req, res) => {
       user.email = email;
     }
 
+    // Save the updated user information
     await user.save();
 
     res.send({
       id: user.id,
       username: user.username,
       email: user.email,
-      roles: user.roles,  // Assuming roles are already set and you want to return them
       message: 'Profile updated successfully!'
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
-
-

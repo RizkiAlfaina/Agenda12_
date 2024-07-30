@@ -14,6 +14,8 @@ router.post('/signin', signin);
 router.post('/signout', signout);
 
 router.post('/reset-password', resetPassword);
-router.patch('/updateProfile/:id',updateProfile);
+
+// Change PATCH to POST for updateProfile route
+router.post('/updateProfile/:id', updateProfile);
 
 export default router;

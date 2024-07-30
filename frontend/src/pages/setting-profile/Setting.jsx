@@ -15,9 +15,9 @@ export default function Setting({ apiUrl }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState('https://github.com/shadcn.png');
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState(''); // Initialize oldPassword state
+  const [newPassword, setNewPassword] = useState(''); // Initialize newPassword state
+  const [confirmNewPassword, setConfirmNewPassword] = useState(''); // Initialize confirmNewPassword state
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Setting({ apiUrl }) {
       setEmail(currentUser.email);
       setUsername(currentUser.username);
     }
-  }, []);
+  }, [message]); 
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,11 +39,24 @@ export default function Setting({ apiUrl }) {
     }
   };
 
-  const handleSave = () => {
-    // Implement save logic here
-    alert('Profile saved successfully!');
+  const handleSave = async () => {
+    try {
+      const currentUser = AuthService.getCurrentUser();
+      const response = await axios.post(`${apiUrl}/updateProfile/${currentUser.id}`, {
+        username,
+        email,
+      });
+  
+      // Update the local storage with new user data
+      const updatedUser = { ...currentUser, username, email };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+  
+      setMessage(response.data.message);
+      alert('Profile saved successfully!');
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'An error occurred while updating the profile.');
+    }
   };
-
   const handlePasswordReset = async () => {
     try {
       const response = await axios.post(`${apiUrl}/reset-password`, {
@@ -53,9 +66,9 @@ export default function Setting({ apiUrl }) {
         confirmNewPassword,
       });
       setMessage(response.data.message);
-      navigate('/setting');
+      alert('Password reset successfully!');
     } catch (error) {
-      setMessage(error.response.data.message);
+      setMessage(error.response?.data?.message || 'An error occurred while resetting the password.');
     }
   };
 
@@ -64,9 +77,11 @@ export default function Setting({ apiUrl }) {
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
         <TabsList className="grid grid-cols-2">
           <TabsTrigger value="profile" className="gap-2">
-            <User className="h-4 w-4" />Profile Info</TabsTrigger>
+            <User className="h-4 w-4" />Profile Info
+          </TabsTrigger>
           <TabsTrigger value="reset" className="gap-2">
-            <KeyRound className="h-4 w-4" />Reset Password</TabsTrigger>
+            <KeyRound className="h-4 w-4" />Reset Password
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
           <Card className="p-6 shadow-sm flex flex-col items-center -mt-2">
