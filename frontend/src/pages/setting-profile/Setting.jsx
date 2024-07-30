@@ -14,10 +14,11 @@ export default function Setting({ apiUrl }) {
   const [selectedTab, setSelectedTab] = useState('profile');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState(''); // Define role state
   const [profileImage, setProfileImage] = useState('https://github.com/shadcn.png');
-  const [oldPassword, setOldPassword] = useState(''); // Initialize oldPassword state
-  const [newPassword, setNewPassword] = useState(''); // Initialize newPassword state
-  const [confirmNewPassword, setConfirmNewPassword] = useState(''); // Initialize confirmNewPassword state
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -25,8 +26,11 @@ export default function Setting({ apiUrl }) {
     if (currentUser) {
       setEmail(currentUser.email);
       setUsername(currentUser.username);
+      if (currentUser.roles) {
+        setRole(currentUser.roles.join(', ')); // Assuming roles is an array
+      }
     }
-  }, [message]); 
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -46,17 +50,18 @@ export default function Setting({ apiUrl }) {
         username,
         email,
       });
-  
+
       // Update the local storage with new user data
       const updatedUser = { ...currentUser, username, email };
       localStorage.setItem("user", JSON.stringify(updatedUser));
-  
+
       setMessage(response.data.message);
       alert('Profile saved successfully!');
     } catch (error) {
       setMessage(error.response?.data?.message || 'An error occurred while updating the profile.');
     }
   };
+
   const handlePasswordReset = async () => {
     try {
       const response = await axios.post(`${apiUrl}/reset-password`, {
@@ -106,6 +111,14 @@ export default function Setting({ apiUrl }) {
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Email</label>
                     <Input placeholder="name@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Role</label>
+                    <Input
+                      value={role}
+                      readOnly
+                      className="bg-gray-100 cursor-not-allowed"
+                    />
                   </div>
                 </CardContent>
                 <Button className="mt-2 bg-blue-500 hover:bg-blue-700 py-2 px-6 w-full md:w-auto self-center lg:self-end text-lg font-sans rounded-lg text-primary hover:text-foreground hover:text-white transition transform hover:scale-105 hover:shadow-lg" onClick={handleSave}>Save</Button>
