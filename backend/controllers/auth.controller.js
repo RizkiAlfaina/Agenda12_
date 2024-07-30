@@ -3,6 +3,8 @@ import config from '../config/auth.config.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import db from '../models/index.js';
+import path from "path";
+import fs from "fs";
 
 const User = db.User;
 const Role = db.Role;
@@ -136,8 +138,7 @@ export const resetPassword = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    // Assuming the user ID is provided in the URL or request body
-    const { id } = req.params; // or req.body.id if using POST body
+    const { id } = req.params;
     const { username, email } = req.body;
 
     // Find user by ID
@@ -147,12 +148,46 @@ export const updateProfile = async (req, res) => {
       return res.status(404).send({ message: 'User not found.' });
     }
 
-    // Update username and email if provided
+    // Handle image upload if present
+    let fileName = user.image;
+    if (req.files && req.files.image) {
+      const file = req.files.image;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      fileName = file.md5 + ext;
+      const allowedTypes = ['.png', '.jpg', '.jpeg'];
+
+      if (!allowedTypes.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: 'Invalid Image Format' });
+      }
+      if (fileSize > 5000000) {
+        return res.status(422).json({ msg: 'Image must be less than 5 MB' });
+      }
+
+      // Remove old image if exists
+      if (user.image) {
+        const filepath = `./public/images/${user.image}`;
+        if (fs.existsSync(filepath)) {
+          fs.unlinkSync(filepath);
+        }
+      }
+
+      // Save new image
+      file.mv(`./public/images/${fileName}`, (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+      });
+    }
+
+    // Update username, email, and image URL if provided
     if (username) {
       user.username = username;
     }
     if (email) {
       user.email = email;
+    }
+    if (req.files && req.files.image) {
+      user.image = fileName;
+      user.url = `${req.protocol}://${req.get('host')}/images/${fileName}`;
     }
 
     // Save the updated user information
@@ -162,7 +197,9 @@ export const updateProfile = async (req, res) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      message: 'Profile updated successfully!'
+      image: user.image,
+      url: user.url,
+      message: 'Profile updated successfully!',
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
