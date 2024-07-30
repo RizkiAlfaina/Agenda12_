@@ -12,6 +12,7 @@ import AddAgenda from './pages/Admin/Agenda/AddAgenda';
 import DisposisiList from './pages/Admin/MasterData/Disposisi/DisposisiList';
 import AddDisposisi from './pages/Admin/MasterData/Disposisi/AddDisposisi';
 import ProtectedRoute from './ProtectedRoutes';
+import Footer from './pages/coba/Footer';
 // Import the ProtectedRoute component
 
 function App({ apiUrl }) {
@@ -45,6 +46,7 @@ function App({ apiUrl }) {
                 <Route path='/disposisi' element={<DisposisiList apiUrl={apiUrl} />} />
                 <Route path='/disposisi/add-disp' element={<AddDisposisi apiUrl={apiUrl} />} />
               </Routes>
+              <Footer />
             </div>
           </div>
         </ProtectedRoute>
