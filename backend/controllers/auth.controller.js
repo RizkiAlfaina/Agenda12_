@@ -3,6 +3,8 @@ import config from '../config/auth.config.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import db from '../models/index.js';
+import path from "path";
+import fs from "fs";
 
 const User = db.User;
 const Role = db.Role;
@@ -63,7 +65,7 @@ export const signin = async (req, res) => {
       {
         algorithm: 'HS256',
         allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
+        expiresIn: 21600, // 24 hours
       }
     );
 
@@ -94,5 +96,112 @@ export const signout = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).send({ message: err.message });
+  }
+};
+
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    const passwordIsValid = bcrypt.compareSync(req.body.oldPassword, user.password);
+
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: 'Invalid Old Password!',
+      });
+    }
+
+    if (req.body.newPassword !== req.body.confirmNewPassword) {
+      return res.status(400).send({
+        message: 'New Password and Confirm New Password do not match!',
+      });
+    }
+
+    user.password = bcrypt.hashSync(req.body.newPassword, 8);
+    await user.save();
+
+    res.send({ message: 'Password was reset successfully!' });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, email } = req.body;
+
+    // Find user by ID
+    const user = await User.findOne({ where: { id } });
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found.' });
+    }
+
+    // Handle image upload if present
+    let fileName = user.image;
+    if (req.files && req.files.image) {
+      const file = req.files.image;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      fileName = file.md5 + ext;
+      const allowedTypes = ['.png', '.jpg', '.jpeg'];
+
+      if (!allowedTypes.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: 'Invalid Image Format' });
+      }
+      if (fileSize > 5000000) {
+        return res.status(422).json({ msg: 'Image must be less than 5 MB' });
+      }
+
+      // Remove old image if exists
+      if (user.image) {
+        const filepath = `./public/images/${user.image}`;
+        if (fs.existsSync(filepath)) {
+          fs.unlinkSync(filepath);
+        }
+      }
+
+      // Save new image
+      file.mv(`./public/images/${fileName}`, (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+      });
+    }
+
+    // Update username, email, and image URL if provided
+    if (username) {
+      user.username = username;
+    }
+    if (email) {
+      user.email = email;
+    }
+    if (req.files && req.files.image) {
+      user.image = fileName;
+      user.url = `${req.protocol}://${req.get('host')}/images/${fileName}`;
+    }
+
+    // Save the updated user information
+    await user.save();
+
+    res.send({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      image: user.image,
+      url: user.url,
+      message: 'Profile updated successfully!',
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
   }
 };

@@ -42,7 +42,7 @@ function App({ apiUrl }) {
                 <Route path='/agenda' element={<AgendaList apiUrl={apiUrl} />} />
                 <Route path='/agenda/add-agenda' element={<AddAgenda apiUrl={apiUrl} />} />
                 <Route path='/agenda/edit-agenda/:id' element={<EditAgenda apiUrl={apiUrl} />} />
-                <Route path='/setting' element={<Setting />} />
+                <Route path='/setting' element={<Setting apiUrl={apiUrl} />} />
                 <Route path='/disposisi' element={<DisposisiList apiUrl={apiUrl} />} />
                 <Route path='/disposisi/add-disp' element={<AddDisposisi apiUrl={apiUrl} />} />
               </Routes>

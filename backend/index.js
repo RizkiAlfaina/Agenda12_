@@ -3,12 +3,15 @@ import cors from 'cors';
 import cookieSession from 'cookie-session';
 import routes from './routes/index.js';
 import db from './models/index.js';
+import FileUpload from "express-fileupload";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(FileUpload());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.use(cookieSession({
   name: 'bezkoder-session',
   keys: ['COOKIE_SECRET'],
