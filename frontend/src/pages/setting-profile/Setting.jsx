@@ -78,7 +78,7 @@ export default function Setting({ apiUrl }) {
   };
 
   return (
-    <main className="flex flex-col gap-6 p-6">
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
         <TabsList className="grid grid-cols-2">
           <TabsTrigger value="profile" className="gap-2">

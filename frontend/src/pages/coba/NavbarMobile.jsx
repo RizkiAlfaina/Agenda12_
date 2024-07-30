@@ -208,14 +208,13 @@ export default function NavbarMobile() {
           <DropdownMenuSeparator />
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-[400px]">
             <TabsList className="grid w-full grid-cols-1">
-              <TabsTrigger value="setting" className="gap-2">
-                <Link
-                  to="/setting"
+              <TabsTrigger value="setting" className="gap-2" onClick={() => handleLinkClick('/setting')}>
+                <span
                   className="text-sm flex items-center gap-3 rounded-lg px-2 py-1 text-muted"
                   onClick={handleResetPasswordClick}
                 >
                   <Settings className="h-4 w-4" /> Setting
-                </Link>
+                </span>
               </TabsTrigger>
             </TabsList>
             {/* <TabsContent value="profile">
