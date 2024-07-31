@@ -61,9 +61,7 @@ export default function NavbarMobile() {
     setIsDropdownOpen(false); // Close the entire dropdown menu
   };
 
-  function handleClick() {
-    window.location.replace('/');
-  }
+
 
   function homeClick() {
     window.location.replace("/");
@@ -98,74 +96,38 @@ export default function NavbarMobile() {
               <Home className="h-4 w-4" />
               Home
             </div>
-            <Accordion type="single" collapsible value={activeAccordion} onValueChange={setActiveAccordion} className="rounded-lg text-muted-foreground transition-all">
-              <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger className="hover:text-primary hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <RxDashboard className="h-4 w-4" />
-                    Dashboard
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <nav className="grid items-start text-sm font-medium lg:px-4">
-                    <span onClick={() => handleLinkClick('/dashboard')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer">
-                      OnGoing
-                    </span>
-                  </nav>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2" className="border-none">
-                <AccordionTrigger className="hover:text-primary hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <ScrollText className="h-4 w-4" />
-                    Agenda
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <nav className="grid items-start text-sm font-medium lg:px-4">
-                    <span onClick={() => handleLinkClick('/agenda')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
-                      Agenda List
-                    </span>
-                  </nav>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3" className="border-none">
-                <AccordionTrigger className="hover:text-primary hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <Database className="h-4 w-4" />
-                    Master Data
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <nav className="grid items-start text-sm font-medium lg:px-4">
-                    <span onClick={() => handleLinkClick('/disposisi')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
-                      Disposisi
-                    </span>
-                  </nav>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4" className="border-none">
-                <AccordionTrigger className="hover:text-primary hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <BookUser className="h-4 w-4" />
-                    Users
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <nav className="grid items-start text-sm font-medium lg:px-4">
-                    {/* <span onClick={() => handleLinkClick('/terminal')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
-                      Terminal
-                    </span> */}
-                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
-                      Employee
-                    </span>
-                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
-                      Role
-                    </span>
-                  </nav>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            <Link
+                to="/dashboard"
+                onClick={() => handleLinkClick('/dashboard')} 
+                className="flex items-center gap-3 rounded-lg -px-1 py-4 -mb-3 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer"
+            >
+                <RxDashboard className="h-4 w-4" />
+                Dashboard
+            </Link>
+            <Link
+                to="/agenda"
+                onClick={() => handleLinkClick('/agenda')} 
+                className="flex items-center gap-3 rounded-lg -px-1 py-4 -mb-3 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer"
+            >
+                <ScrollText className="h-4 w-4" />
+                Agenda
+            </Link>
+            <Link
+                to="/disposisi"
+                onClick={() => handleLinkClick('/disposisi')} 
+                className="flex items-center gap-3 rounded-lg -px-1 py-4 -mb-3 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer"
+            >
+                <Database className="h-4 w-4" />
+                Master Data
+            </Link>
+            <Link
+                to="/users"
+                onClick={() => handleLinkClick('/users')} 
+                className="flex items-center gap-3 rounded-lg -px-1 py-4 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer"
+            >
+                <BookUser className="h-4 w-4" />
+                Users
+            </Link>
           </nav>
         </SheetContent>
       </Sheet>
@@ -243,3 +205,71 @@ export default function NavbarMobile() {
     </header>
   );
 }
+
+
+
+{/* <Accordion type="single" collapsible value={activeAccordion} onValueChange={setActiveAccordion} className="rounded-lg text-muted-foreground transition-all">
+              <AccordionItem value="item-1" className="border-none">
+                <AccordionTrigger className="hover:text-primary hover:no-underline">
+                  <span className="flex items-center gap-3">
+                    <RxDashboard className="h-4 w-4" />
+                    Dashboard
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <nav className="grid items-start text-sm font-medium lg:px-4">
+                    <span onClick={() => handleLinkClick('/dashboard')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary bg-muted cursor-pointer">
+                      OnGoing
+                    </span>
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2" className="border-none">
+                <AccordionTrigger className="hover:text-primary hover:no-underline">
+                  <span className="flex items-center gap-3">
+                    <ScrollText className="h-4 w-4" />
+                    Agenda
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <nav className="grid items-start text-sm font-medium lg:px-4">
+                    <span onClick={() => handleLinkClick('/agenda')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                      Agenda List
+                    </span>
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3" className="border-none">
+                <AccordionTrigger className="hover:text-primary hover:no-underline">
+                  <span className="flex items-center gap-3">
+                    <Database className="h-4 w-4" />
+                    Master Data
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <nav className="grid items-start text-sm font-medium lg:px-4">
+                    <span onClick={() => handleLinkClick('/disposisi')} className="flex items-center gap-3 rounded-lg px-7 py-1 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                      Disposisi
+                    </span>
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-4" className="border-none">
+                <AccordionTrigger className="hover:text-primary hover:no-underline">
+                  <span className="flex items-center gap-3">
+                    <BookUser className="h-4 w-4" />
+                    Users
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <nav className="grid items-start text-sm font-medium lg:px-4">
+                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                      Employee
+                    </span>
+                    <span onClick={() => handleLinkClick('#')} className="flex items-center gap-3 rounded-lg px-7 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer">
+                      Role
+                    </span>
+                  </nav>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion> */}
