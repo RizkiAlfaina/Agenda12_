@@ -302,37 +302,38 @@ export default function Home({ apiUrl }) {
         </Carousel>
       </div>
       <footer className="flex flex-col md:flex-row items-center bg-blue-800 py-2 border-t">
-        <div className="flex-1 flex justify-center items-center text-white p-2 shadow-lg text-center font-medium text-lg sm:text-xl md:text-2xl">
-          {currentTime.toLocaleString('id-ID', {
-            timeZone: 'Asia/Jakarta',
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            hour12: false
-          })} WIB
-        </div>
-        <div className="flex-1 flex justify-end items-center lg:-ml-10 text-sm md:text-base text-gray-400 font-medium text-right mt-2 md:mt-0 p-2 md:mr-4">
-          <div className="flex flex-col md:flex-row items-center md:items-end md:text-right">
-            <div className="hidden md:block text-center md:text-right md:mr-2">
-              <span>Copyright &copy; 2024</span>
-              <span className="mx-2 text-lg font-bold text-gray-500">•</span>
-              <span>Institut Teknologi Sumatera</span>
-            </div>
-            <div className="hidden md:block md:text-right">
-              <span>PKL Ardoni Y.R.G & M.RIZKI.A</span>
-            </div>
-            <div className="block md:hidden text-center">
-              <span>Copyright &copy; 2024</span>
-              <span className="block">Institut Teknologi Sumatera</span>
-              <span className="block">PKL Ardoni Y.R.G & M.RIZKI.A</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+  <div className="flex-1 flex justify-center items-center text-white p-2 shadow-lg lg:ml-20 text-center text-lg font-medium sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+    {currentTime.toLocaleString('id-ID', {
+      timeZone: 'Asia/Jakarta',
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false
+    })} WIB
+  </div>
+  <div className="flex-1 flex justify-end items-center lg:-ml-20 text-sm md:text-base text-gray-400 font-medium text-right mt-2 md:mt-0 p-2 md:mr-4">
+    <div className="flex flex-col md:flex-row items-center md:items-end md:text-right">
+      <div className="hidden md:block text-center md:text-right md:mr-2">
+        <span>Copyright &copy; 2024</span>
+        <span className="mx-2 text-lg font-bold text-gray-500">•</span>
+        <span>Institut Teknologi Sumatera</span>
+      </div>
+      <div className="hidden md:block md:text-right">
+        <span>PKL Ardoni Y.R.G & M.RIZKI.A</span>
+      </div>
+      <div className="block md:hidden text-center">
+        <span>Copyright &copy; 2024</span>
+        <span className="block">Institut Teknologi Sumatera</span>
+        <span className="block">PKL Ardoni Y.R.G & M.RIZKI.A</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
 
     </div>
   );
