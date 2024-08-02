@@ -302,7 +302,7 @@ export default function Home({ apiUrl }) {
         </Carousel>
       </div>
       <footer className="flex flex-col md:flex-row items-center bg-blue-800 py-2 border-t">
-  <div className="flex-1 flex justify-center items-center text-white p-2 shadow-lg lg:ml-20 text-center text-lg font-medium sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+  <div className="flex-1 flex justify-center items-center text-white p-2 shadow-lg lg:ml-20 text-center text-lg font-medium sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl">
     {currentTime.toLocaleString('id-ID', {
       timeZone: 'Asia/Jakarta',
       weekday: 'long',
